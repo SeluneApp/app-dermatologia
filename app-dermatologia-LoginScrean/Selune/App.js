@@ -1,11 +1,15 @@
 import { registerRootComponent } from 'expo';
 import 'react-native-gesture-handler';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, Animated } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Animated } from 'react-native';
+import { Easing } from 'react-native';
+
+
 
 enableScreens();
 
@@ -13,22 +17,32 @@ const Stack = createStackNavigator();
 
 // Componente das estrelinhas
 const Star = ({ top, left }) => {
-  const opacity = new Animated.Value(Math.random());
+  const opacity = React.useRef(new Animated.Value(Math.random())).current;
 
-  Animated.loop(
-    Animated.sequence([
-      Animated.timing(opacity, { toValue: 0.1, duration: 2000, useNativeDriver: true }),
-      Animated.timing(opacity, { toValue: 1, duration: 2000, useNativeDriver: true }),
-    ])
-  ).start();
+  React.useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 0.3,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
 
   return <Animated.View style={[styles.star, { top, left, opacity }]} />;
 };
 
-function StarryBackground() {
+const StarryBackground = () => {
   const stars = Array.from({ length: 70 }, (_, i) => ({
-    top: Math.random() * 100 + '%',
-    left: Math.random() * 100 + '%',
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
     key: i,
   }));
 
@@ -39,8 +53,7 @@ function StarryBackground() {
       ))}
     </View>
   );
-}
-
+};
 // Telas
 
 function LoginScreen({ navigation }) {
@@ -49,22 +62,33 @@ function LoginScreen({ navigation }) {
       <LinearGradient colors={['#0d1b2a', '#112864']} style={StyleSheet.absoluteFill} />
       <StarryBackground />
 
+      {/* Lua fixa no topo */}
       <Image
-  source={require('./assets/images/Logo_Lua.jpg')}
-  style={styles.logo}
-  resizeMode="contain"
-/>
+        source={require('./assets/images/Logo_Lua.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
 
-      <Text style={styles.title}>Selune</Text>
-      <TextInput placeholder="Email" style={styles.input} />
-      <TextInput placeholder="Senha" secureTextEntry style={styles.input} />
-      <Button color="#01024b" title="Entrar" onPress={() => navigation.navigate('Home')} />
-      <Text style={styles.link} onPress={() => navigation.navigate('Register')}>
-        Criar conta
-      </Text>
+      <View style={styles.content}>
+        <Text style={styles.título}>Bem Vindo ao Selune</Text>
+        <Text style={styles.entrada}>Entrar</Text>
+      </View>
+      
+
+      {/* Bloco principal centralizado */}
+      <View style={styles.content}>
+        
+        <TextInput placeholder="Email" style={styles.input} />
+        <TextInput placeholder="Senha" secureTextEntry style={styles.input} />
+        <Button color="#01024b" title="Entrar" onPress={() => navigation.navigate('Home')} />
+        <Text style={styles.link} onPress={() => navigation.navigate('Register')}>
+          Criar conta
+        </Text>
+      </View>
     </View>
   );
 }
+
 
 function RegisterScreen({ navigation }) {
   return (
@@ -129,10 +153,22 @@ function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#112864',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+  },
+  logo: {
+    position: 'absolute',
+    top: 40, // distância do topo
+    width: 100,
+    height: 100,
+  },
+  content: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 120, // empurra o conteúdo para baixo da logo
   },
   title: {
     fontSize: 28,
@@ -162,10 +198,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     opacity: 0.9,
   },
-  logo: {
-    width: 120,
-    height: 120,
-    marginBottom: 10,
+  título: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    position: 'absolute',
+    top: -160,
+  },
+  entrada: {
+    fontSize: 25,
+    color: '#ffffff',
+    fontWeight: 'bold',
+    position: 'absolute',
+    top: 70,
+    left: 9,
   },
 });
 
