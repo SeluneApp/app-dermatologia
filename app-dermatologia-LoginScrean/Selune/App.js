@@ -89,7 +89,7 @@ function LoginScreen({ navigation }) {
   );
 }
 
-
+// tela login
 function RegisterScreen({ navigation }) {
   return (
     <View style={styles.container}>
