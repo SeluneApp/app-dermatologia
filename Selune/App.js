@@ -5,6 +5,11 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
+import HomePage from './src/screens/HomePage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+
 
 enableScreens();
 
@@ -61,16 +66,8 @@ function RegisterScreen({ navigation }) {
   );
 }
 
-function HomeScreen({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <StarryBackground />
-      <Text style={styles.title}>Bem-vindo ao Selune</Text>
-      <Button title="Nova Entrada Diária" onPress={() => navigation.navigate('DailyEntry')} />
-      <Button title="Ver Perfil" onPress={() => navigation.navigate('Profile')} />
-    </View>
-  );
-}
+<Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+
 
 function DailyEntryScreen() {
   const [entry, setEntry] = useState('');
@@ -101,6 +98,39 @@ function ProfileScreen() {
     </View>
   );
 }
+//função para carregamento e login
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const logado = await AsyncStorage.getItem('usuarioLogado');
+      setIsLoggedIn(logado === 'true');
+    };
+    checkLogin();
+  }, []);
+
+  if (isLoggedIn === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#112864' }}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Cadastro' }} />
+        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+        <Stack.Screen name="DailyEntry" component={DailyEntryScreen} options={{ title: 'Entrada Diária' }} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Perfil' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 
 // Estilos
 
