@@ -1,4 +1,3 @@
-import React from 'react';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,8 +9,17 @@ function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [erro, setErro] = useState('');
-    <View style={globalStyles.container}>
+    
+    const handleLogin = () => {
+      if (email === 'teste@teste.com' && senha === '123456') {
+        navigation.navigate('HomePageNoite');
+      } else {
+        setErro('Email ou senha inválidos');
+  }
+};
 
+    return (
+      <View style={globalStyles.container}>
       <LinearGradient colors={['#0d1b2a', '#112864']} style={globalStyles.absoluteFill} />
       <StarryBackground />
        <Image
@@ -67,22 +75,26 @@ function LoginScreen({ navigation }) {
             onChangeText={setSenha}
           />
         </View>
-const handleLogin = () => {
-  if (email === 'teste@teste.com' && senha === '123456') {
-    navigation.navigate('HomePageNoite');
-  } else {
-    setErro('Email ou senha inválidos');
-  }
-};
-        <Text style={globalStyles.atualizar} onPress={() => navigation.navigate('Atualizar')}>Esqueci minha senha</Text>
-{erro ? <Text style={{ color: 'red', textAlign: 'center' }}>{erro}</Text> : null}
-        <TouchableOpacity style={globalStyles.button} onPress={handLogin}>
+  
+        {erro ? <Text style={{ color: 'red', textAlign: 'center' }}>{erro}</Text> : null}
+
+        <Text 
+          style={globalStyles.atualizar} 
+          onPress={() => navigation.navigate('Atualizar')}
+        >
+          Esqueci minha senha 
+        </Text>
+        
+          <TouchableOpacity style={globalStyles.button} onPress={handLogin}>
           {/* Mudei para 'HomePageNoite' para ir para a tela que você criou */}
           <Text style={globalStyles.buttonText}>Acessar</Text>
         </TouchableOpacity>
         <Text style={globalStyles.text}>ou</Text>
 
-        <TouchableOpacity style={globalStyles.buttonGooble} onPress={() => console.log('Acessar com Google')}>
+        <TouchableOpacity 
+          style={globalStyles.buttonGooble} 
+          onPress={() => console.log('Acessar com Google')}
+        >
           {/* Você pode adicionar navegação para uma tela de Google Login aqui */}
           <View style={globalStyles.googleContent}>
             <Image
@@ -92,6 +104,7 @@ const handleLogin = () => {
             <Text style={globalStyles.TextGoole}>Acessar com o Google</Text>
           </View>
         </TouchableOpacity>
+
         <View style={globalStyles.registerPrompt}>
           <Text style={globalStyles.label}>Não tem uma conta? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
