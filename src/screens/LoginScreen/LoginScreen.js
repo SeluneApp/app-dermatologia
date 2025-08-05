@@ -1,4 +1,5 @@
 import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import StarryBackground from '../../../components/StarryBackground/StarryBackground'; // Caminho corrigido
@@ -6,6 +7,9 @@ import globalStyles from '../../../styles/globalStyles'; //Importa os estilos Gl
 
 function LoginScreen({ navigation }) {
   return (
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const [erro, setErro] = useState('');
     <View style={globalStyles.container}>
 
       <LinearGradient colors={['#0d1b2a', '#112864']} style={globalStyles.absoluteFill} />
@@ -44,6 +48,8 @@ function LoginScreen({ navigation }) {
             placeholder="Digite seu email"
             placeholderTextColor="#ccc"
             style={globalStyles.inputWithIcon}
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
@@ -57,10 +63,20 @@ function LoginScreen({ navigation }) {
             placeholderTextColor="#ccc"
             secureTextEntry
             style={globalStyles.inputWithIcon}
+            value={senha}
+            onChangeText={setSenha}
           />
         </View>
+const handleLogin = () => {
+  if (email === 'teste@teste.com' && senha === '123456') {
+    navigation.navigate('HomePageNoite');
+  } else {
+    setErro('Email ou senha inválidos');
+  }
+};
         <Text style={globalStyles.atualizar} onPress={() => navigation.navigate('Atualizar')}>Esqueci minha senha</Text>
-        <TouchableOpacity style={globalStyles.button} onPress={() => navigation.navigate('HomePageNoite')}>
+{erro ? <Text style={{ color: 'red', textAlign: 'center' }}>{erro}</Text> : null}
+        <TouchableOpacity style={globalStyles.button} onPress={handLogin}>
           {/* Mudei para 'HomePageNoite' para ir para a tela que você criou */}
           <Text style={globalStyles.buttonText}>Acessar</Text>
         </TouchableOpacity>
