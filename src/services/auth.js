@@ -1,1 +1,6 @@
-aqui vou fazer a verificação para ver se o email e senha é valido
+export async function loginUser(email, senha) {
+  if (email === 'teste@teste.com' && senha === '123456') {
+    return true;
+  }
+  return false;
+}
