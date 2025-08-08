@@ -37,7 +37,7 @@ function LoginScreen({ navigation }) {
       <View style={globalStyles.content}>
         <View style={globalStyles.inputContainer}>
           <Image
-            source={require('../../../assets/images/envelope.png')} // Ajuste o caminho da imagem
+            source={require('../../../../assets/images/envelope.png')} 
             style={globalStyles.icon}
           />
           <TextInput
@@ -49,7 +49,7 @@ function LoginScreen({ navigation }) {
 
         <View style={globalStyles.inputContainer}>
           <Image
-            source={require('../../../assets/images/cadeado.png')} // Ajuste o caminho da imagem
+            source={require('../../../../assets/images/cadeado.png')} // Ajuste o caminho da imagem
             style={globalStyles.icon}
           />
           <TextInput
@@ -70,7 +70,7 @@ function LoginScreen({ navigation }) {
           {/* Você pode adicionar navegação para uma tela de Google Login aqui */}
           <View style={globalStyles.googleContent}>
             <Image
-              source={require('../../../assets/images/Google.png')} // Ajuste o caminho da imagem
+              source={require('../../../../assets/images/Google.png')} // Ajuste o caminho da imagem
               style={globalStyles.googleIcon}
             />
             <Text style={globalStyles.TextGoole}>Acessar com o Google</Text>

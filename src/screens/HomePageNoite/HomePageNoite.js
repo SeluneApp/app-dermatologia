@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -9,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Calendar } from 'react-native-calendars';
 
 const { width } = Dimensions.get('window');
 
@@ -37,8 +37,6 @@ const ProductTip = ({ name, rating }) => (
 );
 
 const HomePageNoite = ({ navigation }) => {
-  const [selectedDay, setSelectedDay] = useState('');
-  const [isCalendarVisible, setCalendarVisible] = useState(false);
   const starOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -58,17 +56,12 @@ const HomePageNoite = ({ navigation }) => {
     ).start();
   }, []);
 
-  const handleDayPress = (day) => {
-    setSelectedDay(day.dateString);
-    setCalendarVisible(false);
-  };
-
-  const toggleCalendar = () => {
-    setCalendarVisible(!isCalendarVisible);
+  const goToCalendar = () => {
+    navigation.navigate('CalendarioNoite');
   };
 
   const handleRegisterPress = () => {
-    navigation.navigate('DailyEntry');
+    navigation.navigate('RegistroNoite');
   };
 
   const handleNavigationPress = (screenName) => {
@@ -92,64 +85,24 @@ const HomePageNoite = ({ navigation }) => {
         <View style={styles.overlayContent}>
           <View style={styles.header}>
             <Text style={styles.title}>Hoje</Text>
-            <TouchableOpacity onPress={toggleCalendar}>
+            <TouchableOpacity onPress={goToCalendar}>
               <Text style={styles.calendarIcon}>📅</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.weekDaysContainer}>
-            {['S', 'T', 'Q', 'Q', 'S', 'S', 'D'].map((d, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.dayColumn,
-                  i === 6 && styles.selectedDayColumn,
-                ]}
-              >
-                <Text style={styles.dayText}>{d}</Text>
-                <Text style={styles.dateText}>{17 + i}</Text>
-              </View>
-            ))}
-          </View>
-
-          {isCalendarVisible && (
-            <Calendar
-              onDayPress={handleDayPress}
-              markedDates={{
-                ...(selectedDay && {
-                  [selectedDay]: {
-                    selected: true,
-                    disableTouchEvent: true,
-                    selectedDotColor: 'blue',
-                  },
-                }),
-                '2024-07-23': {
-                  marked: true,
-                  dotColor: 'white',
-                  selected: true,
-                  selectedColor: '#8A2BE2',
-                },
-              }}
-              style={styles.calendar}
-              theme={{
-                calendarBackground: '#333355',
-                dayTextColor: '#fff',
-                monthTextColor: '#fff',
-                arrowColor: '#fff',
-                todayTextColor: '#ADFF2F',
-                selectedDayBackgroundColor: '#8A2BE2',
-                selectedDayTextColor: '#ffffff',
-                textDisabledColor: '#ccc',
-                'stylesheet.calendar.header': {
-                  week: {
-                    marginTop: 5,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  },
-                },
-              }}
-            />
-          )}
+          <FlatList
+            data={[
+              { id: '1', color: '#00FF00' },
+              { id: '2', color: '#FF4500' },
+              { id: '3', color: '#3CB371' },
+              { id: '4', color: '#1E90FF' },
+            ]}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <DailyTip color={item.color} />}
+            contentContainerStyle={styles.dailyTipsScrollContent}
+          />
 
           <TouchableOpacity style={styles.registerButton} onPress={handleRegisterPress}>
             <Text style={styles.registerText}>Registre sua pele:</Text>
@@ -161,37 +114,24 @@ const HomePageNoite = ({ navigation }) => {
             </View>
           </TouchableOpacity>
 
-          <View style={styles.dailyTipsSection}>
-            <View style={styles.dailyTipsHeader}>
-              <Text style={styles.sectionTitle}>Dicas Diárias</Text>
-              <Text style={styles.todayText}>·Hoje</Text>
-              <Text style={styles.arrowIcon}>→</Text>
-            </View>
-            <ScrollView
-              horizontal
-              contentContainerStyle={styles.dailyTipsScrollContent}
-              showsHorizontalScrollIndicator={false}
-            >
-              <DailyTip color="#00FF00" />
-              <DailyTip color="#FF4500" />
-              <DailyTip color="#3CB371" />
-            </ScrollView>
-          </View>
-
           <View style={styles.productTipsSection}>
-            <View style={styles.productTipsHeader}>
-              <Text style={styles.sectionTitle}>Dicas de Produtos</Text>
-              <Text style={styles.arrowIcon}>→</Text>
-            </View>
-            <ScrollView
-              contentContainerStyle={styles.productTipsScrollContent}
-              showsVerticalScrollIndicator={false}
-            >
-              <ProductTip name="CeraVe - Creme Hidratante" rating="4.5" />
-              <ProductTip name="Creme facial - Natura" rating="4.0" />
-            </ScrollView>
+            <Text style={styles.sectionTitle}>Dicas de Produtos</Text>
+            <FlatList
+              data={[
+                { id: '1', name: 'CeraVe - Creme Hidratante', rating: '4.5' },
+                { id: '2', name: 'Creme facial - Natura', rating: '4.0' },
+                { id: '3', name: 'LightSkin - Boticário', rating: '4.5' },
+              ]}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <ProductTip name={item.name} rating={item.rating} />
+              )}
+              scrollEnabled={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+            />
           </View>
         </View>
+
         <View style={{ height: 100 }} />
       </ScrollView>
 
@@ -242,42 +182,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#fff',
   },
-  weekDaysContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
-  dayColumn: {
-    alignItems: 'center',
-  },
-  dayText: {
-    fontSize: 14,
-    color: '#ccc',
-  },
-  dateText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  selectedDayColumn: {
-    backgroundColor: '#8A2BE2',
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -5,
-  },
-  calendar: {
-    marginBottom: 20,
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
   registerButton: {
     backgroundColor: '#8A2BE2',
     borderRadius: 10,
     padding: 15,
-    marginBottom: 20,
+    marginVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -308,59 +217,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  dailyTipsSection: {
-    marginBottom: 30,
-  },
-  dailyTipsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
-    marginRight: 5,
-  },
-  todayText: {
-    color: '#fff',
-    marginRight: 5,
-    opacity: 0.8,
-  },
-  arrowIcon: {
-    fontSize: 16,
-    color: '#fff',
-    marginLeft: 'auto',
-  },
-  dailyTipsScrollContent: {
-    paddingRight: 10,
-  },
-  dailyTip: {
-    width: 100,
-    height: 100,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  productTipsSection: {
-    marginBottom: 30,
-    maxHeight: 250,
-    overflow: 'hidden',
-  },
-  productTipsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 10,
   },
-  productTipsScrollContent: {
-    paddingBottom: 10,
+  dailyTipsScrollContent: {
+    marginBottom: 10,
+  },
+  dailyTip: {
+    width: 120,
+    height: 120,
+    borderRadius: 20,
+    marginRight: 15,
+  },
+  productTipsSection: {
+    marginTop: 20,
   },
   productTip: {
     backgroundColor: '#483D8B',
     borderRadius: 10,
-    width: '100%',
     padding: 15,
-    marginBottom: 10,
-    alignItems: 'center',
+    marginBottom: 15,
   },
   productImagePlaceholder: {
     backgroundColor: '#6A5ACD',
@@ -371,13 +250,12 @@ const styles = StyleSheet.create({
   },
   productInfo: {
     alignItems: 'flex-start',
-    width: '100%',
   },
   productName: {
     color: '#fff',
     fontWeight: 'bold',
-    marginBottom: 5,
     fontSize: 14,
+    marginBottom: 5,
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -401,11 +279,6 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 20,
     right: 20,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
   navButton: {
     padding: 5,
