@@ -10,7 +10,7 @@ const DicasNoite = () => {
         style={styles.backgroundImage}
       >
         <View style={styles.header}>
-          <MaterialCommunityIcons name="weather-night-partly-cloudy" size={24} color="#fff" />
+          <MaterialCommunityIcons name="feather" size={24} color="#fff" />
           <Text style={styles.headerTitle}>Conteúdo</Text>
           <MaterialCommunityIcons name="chevron-down" size={24} color="#fff" />
         </View>

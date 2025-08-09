@@ -11,10 +11,10 @@ import Produtos from '../screens/Produtos/Produtos';
 import Produto from '../screens/Produto/Produto';
 import ProdutoSalvo from '../screens/ProdutoSalvo/ProdutoSalvo';
 import ProdutosMais from '../screens/ProdutosMais/ProdutosMais';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import DailyEntryScreen from '../screens/DailyEntryScreen/DailyEntryScreen';
 import ConteudoPage from '../screens/ConteudoPage/ConteudoPage';
 import DermatiteDetalhePage from '../screens/DermatiteDetalhePage/DermatiteDetalhePage';
+import configuração from '../screens/configuração/configuração';
 
 
 
@@ -36,6 +36,7 @@ export default function AppNavigator() {
         <Stack.Screen name="ProdutosMais" component={ProdutosMais} />
         <Stack.Screen name="ConteudoPage" component={ConteudoPage} />
         <Stack.Screen name="DermatiteDetalhePage" component={DermatiteDetalhePage} />
+        <Stack.Screen name="configuração" component={configuração} />
       </Stack.Navigator>
     </NavigationContainer>
   );

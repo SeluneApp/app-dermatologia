@@ -18,14 +18,14 @@ const produtosIndicados = [
     nome: 'CeraVe - Creme Hidratante',
     rating: 4.5,
     marca: 'CeraVe',
-    image: 'https://placehold.co/60x60/FFD700/FFF?text=C', // Placeholder para imagem de exemplo
+    image: 'https://placehold.co/60x60/FFD700/FFF?text=C',
   },
   {
     id: '2',
     nome: 'Creme facial - Natura',
     rating: 4.0,
     marca: 'Natura',
-    image: 'https://placehold.co/60x60/9370DB/FFF?text=N', // Placeholder para imagem de exemplo
+    image: 'https://placehold.co/60x60/9370DB/FFF?text=N',
   },
 ];
 
@@ -35,26 +35,25 @@ const maisProdutos = [
     nome: 'Produto LightSkin - Boticário',
     rating: 4.5,
     marca: 'Boticário',
-    image: 'https://placehold.co/120x120/FFD700/FFF?text=B', // Placeholder para imagem de exemplo
+    image: 'https://placehold.co/120x120/FFD700/FFF?text=B',
   },
   {
     id: '4',
     nome: 'Serum Vitamina C - Skinceuticals',
     rating: 4.8,
     marca: 'Skinceuticals',
-    image: 'https://placehold.co/120x120/9370DB/FFF?text=S', // Placeholder para imagem de exemplo
+    image: 'https://placehold.co/120x120/9370DB/FFF?text=S',
   },
   {
     id: '5',
     nome: 'Hidratante Neutrogena Hydro Boost',
     rating: 4.7,
     marca: 'Neutrogena',
-    image: 'https://placehold.co/120x120/87CEFA/FFF?text=H', // Placeholder para imagem de exemplo
+    image: 'https://placehold.co/120x120/87CEFA/FFF?text=H',
   },
 ];
 
 export default function Produtos({ navigation }) {
-  // Efeito para a animação de opacidade das estrelas
   const starOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -101,7 +100,12 @@ export default function Produtos({ navigation }) {
   );
 
   const handleNavigationPress = (screenName) => {
-    console.log(`Navegar para ${screenName}`);
+    // Agora o botão de "Configurações" navega para a tela
+    if (screenName === 'Configuracoes') {
+      navigation.navigate(screenName);
+    } else {
+      console.log(`Navegar para ${screenName}`);
+    }
   };
 
   return (
@@ -115,7 +119,6 @@ export default function Produtos({ navigation }) {
 
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.content}>
-          {/* Cabeçalho */}
           <View style={styles.header}>
             <MaterialCommunityIcons name="feather" size={24} color="#fff" />
             <View style={styles.titleContainer}>
@@ -125,7 +128,6 @@ export default function Produtos({ navigation }) {
             <MaterialCommunityIcons name="chevron-down" size={24} color="#fff" />
           </View>
 
-          {/* Barra de Pesquisa */}
           <View style={styles.searchBar}>
             <MaterialCommunityIcons name="magnify" size={20} color="#fff" style={styles.searchIcon} />
             <TextInput
@@ -136,7 +138,6 @@ export default function Produtos({ navigation }) {
             <MaterialCommunityIcons name="feather" size={16} color="#fff" style={styles.searchIconRight} />
           </View>
 
-          {/* Seção "Produtos indicados para sua pele" */}
           <Text style={styles.sectionTitle}>Produtos indicados para sua pele</Text>
           <FlatList
             data={produtosIndicados}
@@ -145,7 +146,6 @@ export default function Produtos({ navigation }) {
             contentContainerStyle={styles.list}
           />
 
-          {/* Seção "Mais produtos" */}
           <View style={styles.horizontalSectionHeader}>
             <Text style={styles.sectionTitle}>Mais produtos</Text>
             <MaterialCommunityIcons name="arrow-right" size={24} color="#fff" />
@@ -161,7 +161,6 @@ export default function Produtos({ navigation }) {
         </View>
       </SafeAreaView>
 
-      {/* Barra de navegação inferior */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Nuvem')}>
           <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
@@ -169,12 +168,11 @@ export default function Produtos({ navigation }) {
         <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Raio')}>
           <MaterialCommunityIcons name="weather-lightning-rainy" size={24} color="#fff" />
         </TouchableOpacity>
-        {/* Ícone de folha destacado como ativo */}
-        <TouchableOpacity style={styles.navButtonActive} onPress={() => handleNavigationPress('Folha')}>
-          <MaterialCommunityIcons name="feather" size={32} color="#000" />
+        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Folha')}>
+          <MaterialCommunityIcons name="feather" size={24} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Configuracoes')}>
-          <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+        <TouchableOpacity style={styles.navButtonActive} onPress={() => handleNavigationPress('Configuracoes')}>
+          <MaterialCommunityIcons name="cog-outline" size={32} color="#000" />
         </TouchableOpacity>
       </View>
     </View>

@@ -78,13 +78,19 @@ const HomePageNoite = ({ navigation }) => {
     navigation.navigate('ConteudoPage');
   };
 
-  // Alteração para navegar para a tela de 'Produtos'
   const handleProductTipsPress = () => {
     navigation.navigate('Produtos');
   };
 
+  // Alteração importante: A função agora irá navegar para a tela correta.
   const handleNavigationPress = (screenName) => {
-    console.log(`Navegar para ${screenName}`);
+    if (screenName === 'Configuracoes') {
+      navigation.navigate(screenName);
+    } else {
+      // Para as outras telas, você ainda pode manter o console.log
+      // ou implementar a navegação se as rotas estiverem definidas.
+      console.log(`Navegar para ${screenName}`);
+    }
   };
 
   return (
@@ -217,7 +223,6 @@ const HomePageNoite = ({ navigation }) => {
         <View style={{ height: 100 }} />
       </ScrollView>
 
-      {/* Barra de navegação inferior com os estilos da ConteudoPage */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButtonActive} onPress={() => handleNavigationPress('Nuvem')}>
           <MaterialCommunityIcons name="cloud-outline" size={24} color="#000" />
@@ -228,7 +233,7 @@ const HomePageNoite = ({ navigation }) => {
         <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Folha')}>
           <MaterialCommunityIcons name="feather" size={24} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Configuracoes')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('configuração')}>
           <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -417,7 +422,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
   },
-  // Estilos da ConteudoPage
   bottomNav: {
     flexDirection: 'row',
     justifyContent: 'space-around',
