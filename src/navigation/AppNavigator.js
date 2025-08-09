@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Telas
+import LoginScreen from '../screens/LoginScreen/LoginScreen';
 import HomePageNoite from '../screens/HomePageNoite/HomePageNoite';
 import CalendarioNoite from '../screens/CalendarioNoite/CalendarioNoite';
 import RegistroNoite from '../screens/RegistroNoite/RegistroNoite';
@@ -16,13 +17,15 @@ import ConteudoPage from '../screens/ConteudoPage/ConteudoPage';
 import DermatiteDetalhePage from '../screens/DermatiteDetalhePage/DermatiteDetalhePage';
 
 
+
 const Stack = createStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="Home" component={LoginScreen} />
         <Stack.Screen name="DailyEntryScreen" component={DailyEntryScreen} />
         <Stack.Screen name="HomePageNoite" component={HomePageNoite} />
         <Stack.Screen name="CalendarioNoite" component={CalendarioNoite} />
