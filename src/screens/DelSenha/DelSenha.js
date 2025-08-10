@@ -9,10 +9,16 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
+// Importação do arquivo de estilos globais
 import globalStyles from '../../../styles/globalStyles';
 
-function LoginScreen({ navigation }) {
-  // Estado e efeito para a animação das estrelas
+function UpdatePasswordScreen({ navigation }) {
+  // Estados para armazenar as senhas do usuário
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+
+  // Animação para as estrelas
   const starOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -32,17 +38,33 @@ function LoginScreen({ navigation }) {
     ).start();
   }, []);
 
+  // Função para lidar com o clique no botão "Atualizar Senha"
+  const handleUpdatePassword = () => {
+    // Adicione sua lógica de validação e atualização de senha aqui.
+    if (newPassword !== confirmNewPassword) {
+      console.log('As novas senhas não coincidem!');
+      // Você pode exibir uma mensagem de erro para o usuário aqui.
+      return;
+    }
+    // Lógica para chamar a API de autenticação para atualizar a senha.
+    console.log('Senha atual:', currentPassword);
+    console.log('Nova senha:', newPassword);
+    // Exemplo: navigation.goBack(); para voltar à tela anterior
+  };
+
   return (
     <View style={styles.mainWrapper}>
+      {/* Imagem de fundo estrelada */}
       <Image
         source={require('../../../assets/images/StarryBackground.png')}
         style={styles.backgroundImage}
       />
-
+      {/* Animação das estrelas */}
       <Animated.View style={[styles.animatedStars, { opacity: starOpacity }]} />
-      
+
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.contentWrapper}>
+          {/* Logo */}
           <Image
             source={require('../../../assets/images/Logo_Lua.png')}
             style={globalStyles.logo}
@@ -50,56 +72,63 @@ function LoginScreen({ navigation }) {
           />
 
           <View style={globalStyles.content}>
-            <Text style={globalStyles.título}>Bem Vindo ao Selune</Text>
-            <Text style={globalStyles.entrada}>Entrar</Text>
+            <Text style={globalStyles.título}>Atualizar Senha</Text>
+            <Text style={globalStyles.entrada}>Por favor, insira suas senhas</Text>
           </View>
 
           <View style={globalStyles.content}>
-            <View style={globalStyles.inputContainer}>
-              <Image
-                source={require('../../../assets/images/envelope.png')}
-                style={globalStyles.icon}
-              />
-              <TextInput
-                placeholder="Digite seu email"
-                placeholderTextColor="#ccc"
-                style={globalStyles.inputWithIcon}
-              />
-            </View>
-
+            {/* Campo para a senha atual */}
             <View style={globalStyles.inputContainer}>
               <Image
                 source={require('../../../assets/images/cadeado.png')}
                 style={globalStyles.icon}
               />
               <TextInput
-                placeholder="Digite sua senha"
+                placeholder="Senha atual"
                 placeholderTextColor="#ccc"
                 secureTextEntry
                 style={globalStyles.inputWithIcon}
+                value={currentPassword}
+                onChangeText={setCurrentPassword}
               />
             </View>
-            <Text style={globalStyles.atualizar} onPress={() => navigation.navigate('DelSenha')}>Esqueci minha senha</Text>
-            <TouchableOpacity style={globalStyles.button} onPress={() => navigation.navigate('HomePageNoite')}>
-              <Text style={globalStyles.buttonText}>Acessar</Text>
-            </TouchableOpacity>
-            <Text style={globalStyles.text}>ou</Text>
 
-            <TouchableOpacity style={globalStyles.buttonGooble} onPress={() => console.log('Acessar com Google')}>
-              <View style={globalStyles.googleContent}>
-                <Image
-                  source={require('../../../assets/images/Google.png')}
-                  style={globalStyles.googleIcon}
-                />
-                <Text style={globalStyles.TextGoole}>Acessar com o Google</Text>
-              </View>
-            </TouchableOpacity>
-            <View style={globalStyles.registerPrompt}>
-              <Text style={globalStyles.label}>Não tem uma conta? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text style={globalStyles.linkText}>Cadastre-se</Text>
-              </TouchableOpacity>
+            {/* Campo para a nova senha */}
+            <View style={globalStyles.inputContainer}>
+              <Image
+                source={require('../../../assets/images/cadeado.png')}
+                style={globalStyles.icon}
+              />
+              <TextInput
+                placeholder="Nova senha"
+                placeholderTextColor="#ccc"
+                secureTextEntry
+                style={globalStyles.inputWithIcon}
+                value={newPassword}
+                onChangeText={setNewPassword}
+              />
             </View>
+
+            {/* Campo para confirmar a nova senha */}
+            <View style={globalStyles.inputContainer}>
+              <Image
+                source={require('../../../assets/images/cadeado.png')}
+                style={globalStyles.icon}
+              />
+              <TextInput
+                placeholder="Confirme a nova senha"
+                placeholderTextColor="#ccc"
+                secureTextEntry
+                style={globalStyles.inputWithIcon}
+                value={confirmNewPassword}
+                onChangeText={setConfirmNewPassword}
+              />
+            </View>
+
+            {/* Botão de atualização de senha */}
+            <TouchableOpacity style={globalStyles.button} onPress={handleUpdatePassword}>
+              <Text style={globalStyles.buttonText}>Atualizar Senha</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
@@ -135,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default UpdatePasswordScreen;

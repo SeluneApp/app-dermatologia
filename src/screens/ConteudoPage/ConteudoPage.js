@@ -88,20 +88,20 @@ const ConteudoPage = ({ navigation }) => {
         </SafeAreaView>
 
         {/* Barra de navegação inferior */}
-        <View style={styles.bottomNav}>
-          <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Nuvem')}>
-            <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.navButtonActive} onPress={() => handleNavigationPress('Raio')}>
-            <MaterialCommunityIcons name="weather-lightning" size={32} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Folha')}>
-            <MaterialCommunityIcons name="feather" size={24} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Configuracoes')}>
-            <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.bottomNav}>
+  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePageNoite')}>
+    <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('ConteudoPage')}>
+    <MaterialCommunityIcons name="weather-lightning" size={32} color="#000" />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Produtos')}>
+    <MaterialCommunityIcons name="feather" size={24} color="#fff" />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuração')}>
+    <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+  </TouchableOpacity>
+</View>
       </ImageBackground>
     </View>
   );

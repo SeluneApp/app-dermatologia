@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, TextInput } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 const DailyEntryScreen = ({ navigation }) => {
-  const [selectedTexture, setSelectedTexture] = useState(null);
   const [selectedExposure, setSelectedExposure] = useState(null);
   const [hasRedness, setHasRedness] = useState(null);
   const [selectedFeeling, setSelectedFeeling] = useState([]);
+  const [productName, setProductName] = useState('');
 
-  const textureOptions = [
-    { label: 'áspera', color: '#FF0000' }, // Vermelho
-    { label: 'seca', color: '#8A2BE2' },   // Roxo
-    { label: 'oleosa', color: '#FFFF00' }, // Amarelo
-    { label: 'e-carnosa', color: '#ADFF2F' }, // Verde Lima
-  ];
-
-  const exposureOptions = ['15-30 min', '2-3 horas', '+ 3 horas'];
+  const exposureOptions = ['15-30 min', '1-2 horas', '2-3 horas', '+ 3 horas'];
   const feelingOptions = ['coceira', 'ardencia', 'dor'];
 
   const handleFeelingSelect = (feeling) => {
@@ -28,151 +23,182 @@ const DailyEntryScreen = ({ navigation }) => {
   };
 
   return (
-    // ScrollView principal para a tela de registro
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-      showsVerticalScrollIndicator={false} // Deixa o scroll vertical invisível
-    >
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={styles.backIcon}>✕</Text> {/* Ícone "X" para voltar */}
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Hoje</Text>
-        <Text style={styles.dateText}>23 Fev, 2025</Text>
-        <TouchableOpacity style={styles.arrowButton}>
-          <Text style={styles.arrowIcon}>›</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Qual a textura da sua pele? */}
-      <View style={styles.section}>
-        <Text style={styles.sectionQuestion}>Qual a textura da sua pele?</Text>
-        <View style={styles.optionsContainer}>
-          {textureOptions.map((option) => (
-            <TouchableOpacity
-              key={option.label}
-              style={[
-                styles.textureOption,
-                { backgroundColor: option.color },
-                selectedTexture === option.label && styles.selectedTextureOption,
-              ]}
-              onPress={() => setSelectedTexture(option.label)}
-            >
-              <Text style={styles.textureOptionText}>{option.label}</Text>
+    <View style={styles.mainWrapper}>
+      <LinearGradient
+        colors={['#1F0E4D', '#3B176B']}
+        style={styles.backgroundImage}
+      >
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Cabeçalho */}
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+              <Text style={styles.backIcon}>✕</Text>
             </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+            <View style={styles.dateContainer}>
+              <TouchableOpacity style={styles.arrowButton}>
+                <Text style={styles.arrowIcon}>{'<'}</Text>
+              </TouchableOpacity>
+              <View style={styles.dateInfo}>
+                <Text style={styles.headerTitle}>Hoje</Text>
+                <Text style={styles.dateText}>23 fev. 2025</Text>
+              </View>
+              <TouchableOpacity style={styles.arrowButton}>
+                <Text style={styles.arrowIcon}>{'>'}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-      {/* Exposição ao sol: */}
-      <View style={styles.section}>
-        <Text style={styles.sectionQuestion}>Exposição ao sol:</Text>
-        <View style={styles.optionsContainer}>
-          {exposureOptions.map((option) => (
-            <TouchableOpacity
-              key={option}
-              style={[
-                styles.exposureOption,
-                selectedExposure === option && styles.selectedExposureOption,
-              ]}
-              onPress={() => setSelectedExposure(option)}
-            >
-              <Text style={styles.exposureOptionText}>{option}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+          {/* Seção Exposição ao sol */}
+          <View style={styles.section}>
+            <Text style={styles.sectionQuestion}>Exposição ao sol :</Text>
+            <View style={styles.optionsContainer}>
+              {exposureOptions.map((option) => (
+                <TouchableOpacity
+                  key={option}
+                  style={[
+                    styles.optionButton,
+                    selectedExposure === option && styles.selectedOption,
+                  ]}
+                  onPress={() => setSelectedExposure(option)}
+                >
+                  <Text style={styles.optionText}>{option}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
 
-      {/* Sua pele apresenta vermelhidões? */}
-      <View style={styles.section}>
-        <Text style={styles.sectionQuestion}>Sua pele apresenta vermelhidões?</Text>
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            style={[
-              styles.yesNoOption,
-              hasRedness === true && styles.selectedYesNoOption,
-            ]}
-            onPress={() => setHasRedness(true)}
-          >
-            <Text style={styles.yesNoText}>sim</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.yesNoOption,
-              hasRedness === false && styles.selectedYesNoOption,
-            ]}
-            onPress={() => setHasRedness(false)}
-          >
-            <Text style={styles.yesNoText}>não</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+          {/* Seção Sua pele apresenta vermelhidões? */}
+          <View style={styles.section}>
+            <Text style={styles.sectionQuestion}>Sua pele apresenta vermelhidões?</Text>
+            <View style={styles.optionsContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.optionButton,
+                  hasRedness === true && styles.selectedOption,
+                ]}
+                onPress={() => setHasRedness(true)}
+              >
+                <Text style={styles.optionText}>sim</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.optionButton,
+                  hasRedness === false && styles.selectedOption,
+                ]}
+                onPress={() => setHasRedness(false)}
+              >
+                <Text style={styles.optionText}>não</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-      {/* Está sentindo: */}
-      <View style={styles.section}>
-        <Text style={styles.sectionQuestion}>Está sentindo:</Text>
-        <View style={styles.optionsContainer}>
-          {feelingOptions.map((feeling) => (
-            <TouchableOpacity
-              key={feeling}
-              style={[
-                styles.feelingOption,
-                selectedFeeling.includes(feeling) && styles.selectedFeelingOption,
-              ]}
-              onPress={() => handleFeelingSelect(feeling)}
-            >
-              <Text style={styles.feelingOptionText}>{feeling}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+          {/* Seção Está sentindo: */}
+          <View style={styles.section}>
+            <Text style={styles.sectionQuestion}>Está sentindo:</Text>
+            <View style={styles.optionsContainer}>
+              {feelingOptions.map((feeling) => (
+                <TouchableOpacity
+                  key={feeling}
+                  style={[
+                    styles.optionButton,
+                    selectedFeeling.includes(feeling) && styles.selectedOption,
+                  ]}
+                  onPress={() => handleFeelingSelect(feeling)}
+                >
+                  <Text style={styles.optionText}>{feeling}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
 
-      {/* Botão Salvar (ou outro conteúdo para preencher e forçar scroll) */}
-      <TouchableOpacity style={styles.saveButton}>
-        <Text style={styles.saveButtonText}>Salvar Registro</Text>
+          {/* Seção Fez uso de qual produto/medicamento? */}
+          <View style={styles.section}>
+            <Text style={styles.sectionQuestion}>Fez uso de qual produto/medicamento?</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Digite aqui o nome e marca do produto"
+              placeholderTextColor="#888"
+              value={productName}
+              onChangeText={setProductName}
+            />
+          </View>
+        </ScrollView>
+      </LinearGradient>
+
+      {/* Botão flutuante + com degradê */}
+      <TouchableOpacity style={styles.plusButtonContainer}>
+        <LinearGradient
+          colors={['#8A2BE2', '#4B0082']} // Degradê de roxo para roxo mais escuro
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.plusButton}
+        >
+          <Text style={styles.plusIcon}>+</Text>
+        </LinearGradient>
       </TouchableOpacity>
-      {/* Adicione mais conteúdo ou View de espaço para forçar a rolagem */}
-      <View style={{ height: 50 }} />
-
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainWrapper: {
+    flex: 1,
+    backgroundColor: '#1F0E4D',
+  },
+  backgroundImage: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#191970', // Cor de fundo da tela de registro
     paddingHorizontal: 20,
     paddingTop: 40,
   },
   contentContainer: {
-    paddingBottom: 20, // Espaço no final para que o último item não fique colado na borda
+    paddingBottom: 100,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 30,
+    paddingTop: 20,
+    justifyContent: 'space-between',
+    position: 'relative',
   },
   backButton: {
-    marginRight: 20,
+    position: 'absolute',
+    left: 0,
+    top: 20,
+    zIndex: 1,
+    padding: 10,
   },
   backIcon: {
     fontSize: 24,
     color: '#fff',
     fontWeight: 'bold',
   },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  dateInfo: {
+    alignItems: 'center',
+    marginHorizontal: 15,
+  },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-    flex: 1, // Para que o título ocupe o espaço e empurre a data/seta
+    textAlign: 'center',
   },
   dateText: {
-    fontSize: 16,
-    color: '#fff',
-    marginRight: 10,
+    fontSize: 14,
+    color: '#E0E0FF',
   },
   arrowButton: {
     padding: 5,
@@ -183,97 +209,79 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   section: {
-    backgroundColor: '#333355', // Cor de fundo dos blocos
-    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 15,
     padding: 15,
     marginBottom: 20,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 1,
   },
   sectionQuestion: {
-    color: '#fff',
+    color: '#E0E0FF',
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 15,
   },
   optionsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap', // Para que as opções quebrem a linha se não couberem
-    justifyContent: 'flex-start', // Alinha ao início
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
-  // Estilos para as opções de textura
-  textureOption: {
+  optionButton: {
+    backgroundColor: '#9370DB',
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 15,
-    marginRight: 10,
     marginBottom: 10,
-  },
-  textureOptionText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  selectedTextureOption: {
-    borderWidth: 2,
-    borderColor: '#fff', // Borda branca quando selecionado
-  },
-  // Estilos para as opções de exposição
-  exposureOption: {
-    backgroundColor: '#8A2BE2', // Roxo
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    marginRight: 10,
-    marginBottom: 10,
-  },
-  exposureOptionText: {
-    color: '#fff',
-  },
-  selectedExposureOption: {
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
-  // Estilos para as opções Sim/Não
-  yesNoOption: {
-    backgroundColor: '#8A2BE2', // Roxo
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    marginRight: 10,
-    marginBottom: 10,
-  },
-  yesNoText: {
-    color: '#fff',
-  },
-  selectedYesNoOption: {
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
-  // Estilos para as opções de "Está sentindo"
-  feelingOption: {
-    backgroundColor: '#8A2BE2', // Roxo
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    marginRight: 10,
-    marginBottom: 10,
-  },
-  feelingOptionText: {
-    color: '#fff',
-  },
-  selectedFeelingOption: {
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
-  saveButton: {
-    backgroundColor: '#1E90FF', // Azul vibrante
-    borderRadius: 10,
-    padding: 15,
+    width: (width - 80) / 2,
     alignItems: 'center',
-    marginTop: 20, // Espaçamento antes do botão
   },
-  saveButtonText: {
+  selectedOption: {
+    backgroundColor: '#B19CD9',
+    borderColor: '#fff',
+    borderWidth: 2,
+  },
+  optionText: {
     color: '#fff',
-    fontSize: 18,
+    fontWeight: '500',
+  },
+  textInput: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 10,
+    padding: 10,
+    color: '#fff',
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    marginTop: 5,
+  },
+  plusButtonContainer: {
+    position: 'absolute',
+    bottom: 30,
+    left: (width / 2) - 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  plusButton: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  plusIcon: {
+    fontSize: 35,
+    color: '#fff',
     fontWeight: 'bold',
+    lineHeight: 35,
   },
 });
 

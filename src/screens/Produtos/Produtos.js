@@ -18,14 +18,14 @@ const produtosIndicados = [
     nome: 'CeraVe - Creme Hidratante',
     rating: 4.5,
     marca: 'CeraVe',
-    image: 'https://placehold.co/60x60/FFD700/FFF?text=C', // Placeholder para imagem de exemplo
+    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
   },
   {
     id: '2',
     nome: 'Creme facial - Natura',
     rating: 4.0,
     marca: 'Natura',
-    image: 'https://placehold.co/60x60/9370DB/FFF?text=N', // Placeholder para imagem de exemplo
+    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
   },
 ];
 
@@ -35,21 +35,21 @@ const maisProdutos = [
     nome: 'Produto LightSkin - Boticário',
     rating: 4.5,
     marca: 'Boticário',
-    image: 'https://placehold.co/120x120/FFD700/FFF?text=B', // Placeholder para imagem de exemplo
+    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
   },
   {
     id: '4',
     nome: 'Serum Vitamina C - Skinceuticals',
     rating: 4.8,
     marca: 'Skinceuticals',
-    image: 'https://placehold.co/120x120/9370DB/FFF?text=S', // Placeholder para imagem de exemplo
+    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
   },
   {
     id: '5',
     nome: 'Hidratante Neutrogena Hydro Boost',
     rating: 4.7,
     marca: 'Neutrogena',
-    image: 'https://placehold.co/120x120/87CEFA/FFF?text=H', // Placeholder para imagem de exemplo
+    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
   },
 ];
 
@@ -163,20 +163,19 @@ export default function Produtos({ navigation }) {
 
       {/* Barra de navegação inferior */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Nuvem')}>
-          <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Raio')}>
-          <MaterialCommunityIcons name="weather-lightning-rainy" size={24} color="#fff" />
-        </TouchableOpacity>
-        {/* Ícone de folha destacado como ativo */}
-        <TouchableOpacity style={styles.navButtonActive} onPress={() => handleNavigationPress('Folha')}>
-          <MaterialCommunityIcons name="feather" size={32} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => handleNavigationPress('Configuracoes')}>
-          <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePageNoite')}>
+    <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ConteudoPage')}>
+    <MaterialCommunityIcons name="weather-lightning" size={24} color="#fff" />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('Produtos')}>
+    <MaterialCommunityIcons name="feather" size={32} color="#000" />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuração')}>
+    <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+  </TouchableOpacity>
+</View>
     </View>
   );
 }

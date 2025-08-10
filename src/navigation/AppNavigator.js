@@ -15,6 +15,7 @@ import DailyEntryScreen from '../screens/DailyEntryScreen/DailyEntryScreen';
 import ConteudoPage from '../screens/ConteudoPage/ConteudoPage';
 import DermatiteDetalhePage from '../screens/DermatiteDetalhePage/DermatiteDetalhePage';
 import configuração from '../screens/configuração/configuração';
+import DelSenha from '../screens/DelSenha/DelSenha';
 
 
 
@@ -37,6 +38,7 @@ export default function AppNavigator() {
         <Stack.Screen name="ConteudoPage" component={ConteudoPage} />
         <Stack.Screen name="DermatiteDetalhePage" component={DermatiteDetalhePage} />
         <Stack.Screen name="configuração" component={configuração} />
+        <Stack.Screen name="DelSenha" component={DelSenha} />
       </Stack.Navigator>
     </NavigationContainer>
   );
