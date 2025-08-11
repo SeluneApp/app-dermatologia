@@ -1,166 +1,339 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Selune - Apoio e Visibilidade para sua Pele</title>
-  <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif;
-    }
-    body {
-      background: linear-gradient(to bottom, #0a0a1f, #1a1a40, #3b3b6b, #e2cfcf);
-      color: white;
-      overflow-x: hidden;
-    }
-    canvas {
-      position: fixed; top: 0; left: 0; z-index: -1;
-    }
-    header {
-      display: flex; justify-content: space-between; align-items: center; padding: 20px 10%;
-    }
-    header img {
-      height: 120px; /* logo maior */
-      width: auto;
-    }
-    nav a {
-      color: white; text-decoration: none; margin: 0 15px; font-weight: bold;
-    }
-    nav a:hover {
-      color: #ffcc88;
-    }
-    .hero {
-      text-align: center; padding: 100px 20px;
-    }
-    .hero h1 {
-      font-size: 3rem; color: #ffd1a1;
-    }
-    .hero p {
-      margin: 20px auto; font-size: 1.2rem; max-width: 600px;
-    }
-    .btn {
-      background: #ffcc88; color: #000; padding: 15px 25px; font-size: 1.1rem; border: none; border-radius: 30px; cursor: pointer; transition: 0.3s;
-    }
-    .btn:hover {
-      background: #ffaa33;
-    }
-    section {
-      padding: 80px 10%; text-align: center;
-    }
-    .diferenciais {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
-    }
-    .card {
-      background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; transition: 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      background: rgba(255,255,255,0.1);
-    }
-    footer {
-      background: rgba(0,0,0,0.6); padding: 30px; text-align: center; font-size: 0.9rem;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Selune - Apoio e Visibilidade para sua Pele</title>
+<style>
+  * {
+    margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif;
+  }
+  body {
+    overflow-x: hidden;
+    transition: background 2s ease;
+  }
+  body.noite {
+    background: linear-gradient(to bottom, #0a0a1f, #1a1a40, #3b3b6b, #e2cfcf);
+    color: white;
+  }
+  body.dia {
+    background: linear-gradient(to bottom, #87ceeb, #a6dcef, #f6f9fc, #fffde7);
+    color: #333;
+  }
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  header {
+    display: flex; justify-content: space-between; align-items: center; padding: 20px 10%;
+  }
+  header img {
+    height: 120px; width: auto;
+    cursor: pointer;
+    transition: filter 0.5s ease;
+  }
+  nav a {
+    color: inherit;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  nav a:hover {
+    color: #ffcc88;
+  }
+  .hero {
+    text-align: center; padding: 100px 20px;
+  }
+  .hero h1 {
+    font-size: 3rem;
+  }
+  body.noite .hero h1 {
+    color: #ffd1a1;
+  }
+  body.dia .hero h1 {
+    color: #4a4a4a;
+  }
+  .hero p {
+    margin: 20px auto;
+    font-size: 1.2rem;
+    max-width: 600px;
+  }
+  body.noite .hero p {
+    color: white;
+  }
+  body.dia .hero p {
+    color: #555;
+  }
+  .btn {
+    background: #ffcc88;
+    color: #000;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn:hover {
+    background: #ffaa33;
+  }
+  section {
+    padding: 80px 10%;
+    text-align: center;
+  }
+  .diferenciais {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 20px;
+    transition: 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+  }
+  body.dia .card {
+    background: rgba(0, 0, 0, 0.05);
+    color: #222;
+  }
+  body.dia .card:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  footer {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: white;
+  }
+  body.dia footer {
+    background: rgba(200, 180, 100, 0.4);
+    color: #444;
+  }
+</style>
 </head>
-<body>
-  <canvas id="stars"></canvas>
+<body class="noite">
 
-  <header>
-    <img src="Logo_Lua.png" alt="Logo Selune" />
-    <nav>
-      <a href="#sobre">Sobre</a>
-      <a href="#diferenciais">Diferenciais</a>
-      <a href="#download">Baixar</a>
-      <a href="#contato">Contato</a>
-    </nav>
-  </header>
+<canvas id="canvas"></canvas>
 
-  <div class="hero">
-    <h1>Selune - Apoio e Visibilidade para sua Pele</h1>
-    <p>Um aplicativo dedicado a apoiar pessoas com peles sensíveis e que enfrentam doenças dermatológicas, ajudando a dar visibilidade e incentivando o cuidado com especialistas.</p>
-    <button class="btn" onclick="window.location='#download'">Baixar Agora</button>
-  </div>
+<header>
+  <!-- Logo inicial: lua -->
+  <img id="logo" src="Logo_Lua.png" alt="Logo Selune" title="Clique para mudar para o dia" />
+  <nav>
+    <a href="#sobre">Sobre</a>
+    <a href="#diferenciais">Diferenciais</a>
+    <a href="#download">Baixar</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
 
-  <section id="sobre">
-    <h2>Quem Somos</h2>
-    <p>O Selune surgiu para ajudar quem tem vergonha da própria pele, dando mais visibilidade e encorajando a busca por médicos especializados. Queremos que você se sinta acolhido e informado.</p>
-  </section>
+<div class="hero">
+  <h1>Selune - Apoio e Visibilidade para sua Pele</h1>
+  <p>Um aplicativo dedicado a apoiar pessoas com peles sensíveis e que enfrentam doenças dermatológicas, ajudando a dar visibilidade e incentivando o cuidado com especialistas.</p>
+  <button class="btn" onclick="window.location='#download'">Baixar Agora</button>
+</div>
 
-  <section id="diferenciais">
-    <h2>Nossos Diferenciais</h2>
-    <div class="diferenciais">
-      <div class="card">
-        <h3>Apoio e Comunidade</h3>
-        <p>Ambiente acolhedor para compartilhar experiências e receber apoio sem julgamentos.</p>
-      </div>
-      <div class="card">
-        <h3>Foco em Pelas Sensíveis e Doenças Dermatológicas</h3>
-        <p>Conteúdo pensado especialmente para quem vive com peles sensíveis e condições dermatológicas.</p>
-      </div>
-      <div class="card">
-        <h3>Incentivo ao Cuidado Profissional</h3>
-        <p>Encorajamos sempre a busca por avaliação médica especializada, sem substituir diagnósticos.</p>
-      </div>
-      <div class="card">
-        <h3>Informação Confiável</h3>
-        <p>Artigos e dicas baseados em fontes confiáveis para ajudar no cuidado do dia a dia.</p>
-      </div>
+<section id="sobre">
+  <h2>Quem Somos</h2>
+  <p>O Selune surgiu para ajudar quem tem vergonha da própria pele, dando mais visibilidade e encorajando a busca por médicos especializados. Queremos que você se sinta acolhido e informado.</p>
+</section>
+
+<section id="diferenciais">
+  <h2>Nossos Diferenciais</h2>
+  <div class="diferenciais">
+    <div class="card">
+      <h3>Apoio e Comunidade</h3>
+      <p>Ambiente acolhedor para compartilhar experiências e receber apoio sem julgamentos.</p>
     </div>
-  </section>
+    <div class="card">
+      <h3>Foco em Pelas Sensíveis e Doenças Dermatológicas</h3>
+      <p>Conteúdo pensado especialmente para quem vive com peles sensíveis e condições dermatológicas.</p>
+    </div>
+    <div class="card">
+      <h3>Incentivo ao Cuidado Profissional</h3>
+      <p>Encorajamos sempre a busca por avaliação médica especializada, sem substituir diagnósticos.</p>
+    </div>
+    <div class="card">
+      <h3>Informação Confiável</h3>
+      <p>Artigos e dicas baseados em fontes confiáveis para ajudar no cuidado do dia a dia.</p>
+    </div>
+  </div>
+</section>
 
-  <section id="download">
-    <h2>Baixe o Selune</h2>
-    <p>Disponível para Android e iOS.</p>
-    <button class="btn">Baixar no Google Play</button>
-    <button class="btn">Baixar na App Store</button>
-  </section>
+<section id="download">
+  <h2>Baixe o Selune</h2>
+  <p>Disponível para Android e iOS.</p>
+  <button class="btn">Baixar no Google Play</button>
+  <button class="btn">Baixar na App Store</button>
+</section>
 
-  <section id="contato">
-    <h2>Entre em Contato</h2>
-    <p>Email: contato@selune.com</p>
-    <p>Instagram: @seluneapp</p>
-  </section>
+<section id="contato">
+  <h2>Entre em Contato</h2>
+  <p>Email: contato@selune.com</p>
+  <p>Instagram: @seluneapp</p>
+</section>
 
-  <footer>
-    &copy; 2025 Selune. Todos os direitos reservados.
-  </footer>
+<footer>
+  &copy; 2025 Selune. Todos os direitos reservados.
+</footer>
 
-  <script>
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let w, h;
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
 
-    function init() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-      stars = [];
-      for (let i = 0; i < 150; i++) {
-        stars.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          radius: Math.random() * 1.5,
-          speed: Math.random() * 0.5
-        });
-      }
-    }
+  let stars = [];
+  let clouds = [];
 
-    function animate() {
-      ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = "white";
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fill();
-        star.y += star.speed;
-        if (star.y > h) star.y = 0;
+  // Estado: true = noite, false = dia
+  let isNight = true;
+
+  // Ajusta tamanho do canvas
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  // Estrelas para noite
+  function createStars() {
+    stars = [];
+    for (let i = 0; i < 150; i++) {
+      stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        radius: Math.random() * 1.5,
+        speed: Math.random() * 0.5 + 0.1
       });
-      requestAnimationFrame(animate);
     }
+  }
 
-    window.addEventListener('resize', init);
-    init();
+  // Nuvens para dia - iniciam fora da tela para evitar corte
+  function createClouds() {
+    clouds = [];
+    for (let i = 0; i < 12; i++) {
+      clouds.push({
+        x: w + Math.random() * w, // começa totalmente fora da tela à direita
+        y: Math.random() * (h / 3),
+        radius: 60 + Math.random() * 40,
+        speed: 0.3 + Math.random() * 0.3,
+        opacity: 0.4 + Math.random() * 0.4
+      });
+    }
+  }
+
+  // Desenha nuvem volumosa
+  function drawCloud(cloud) {
+  ctx.save();
+  ctx.fillStyle = `rgba(255, 255, 255, ${cloud.opacity})`;
+  ctx.shadowColor = `rgba(255, 255, 255, ${cloud.opacity * 0.6})`;
+  ctx.shadowBlur = 15;
+
+  // Desenha base retangular arredondada para suavizar a parte de baixo
+  const rectX = cloud.x - cloud.radius * 0.8;
+  const rectY = cloud.y;
+  const rectWidth = cloud.radius * 2.2;
+  const rectHeight = cloud.radius * 0.7;
+  const radius = rectHeight / 2;
+
+  ctx.beginPath();
+  ctx.moveTo(rectX + radius, rectY);
+  ctx.lineTo(rectX + rectWidth - radius, rectY);
+  ctx.quadraticCurveTo(rectX + rectWidth, rectY, rectX + rectWidth, rectY + radius);
+  ctx.lineTo(rectX + rectWidth, rectY + rectHeight - radius);
+  ctx.quadraticCurveTo(rectX + rectWidth, rectY + rectHeight, rectX + rectWidth - radius, rectY + rectHeight);
+  ctx.lineTo(rectX + radius, rectY + rectHeight);
+  ctx.quadraticCurveTo(rectX, rectY + rectHeight, rectX, rectY + rectHeight - radius);
+  ctx.lineTo(rectX, rectY + radius);
+  ctx.quadraticCurveTo(rectX, rectY, rectX + radius, rectY);
+  ctx.closePath();
+  ctx.fill();
+
+  // Desenha os círculos da nuvem
+  ctx.beginPath();
+  ctx.arc(cloud.x, cloud.y, cloud.radius * 0.6, 0, Math.PI * 2);
+  ctx.arc(cloud.x + cloud.radius * 0.5, cloud.y + 10, cloud.radius * 0.7, 0, Math.PI * 2);
+  ctx.arc(cloud.x + cloud.radius, cloud.y, cloud.radius * 0.6, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+
+  // Animação noite (estrelas)
+  function animateNight() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "white";
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+      star.y += star.speed;
+      if (star.y > h) star.y = 0;
+    });
+  }
+
+  // Animação dia (nuvens)
+  function animateDay() {
+    ctx.clearRect(0, 0, w, h);
+    clouds.forEach(cloud => {
+      drawCloud(cloud);
+      cloud.x += cloud.speed;
+      if (cloud.x - cloud.radius > w) {
+        cloud.x = -cloud.radius * 2; // volta começando mais à esquerda, fora da tela
+      }
+    });
+  }
+
+  // Loop animação
+  function animate() {
+    if (isNight) {
+      animateNight();
+    } else {
+      animateDay();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Alternar tema dia/noite e trocar logo
+  const logo = document.getElementById('logo');
+  logo.addEventListener('click', () => {
+    isNight = !isNight;
+    if (isNight) {
+      document.body.classList.remove('dia');
+      document.body.classList.add('noite');
+      logo.src = 'Logo_Lua.png';
+      logo.title = 'Clique para mudar para o dia';
+    } else {
+      document.body.classList.remove('noite');
+      document.body.classList.add('dia');
+      logo.src = 'Logo_Sol.png';
+      logo.title = 'Clique para mudar para a noite';
+    }
+  });
+
+  // Inicialização
+  function init() {
+    resize();
+    createStars();
+    createClouds();
     animate();
-  </script>
+  }
+
+  window.addEventListener('resize', () => {
+    resize();
+    if (isNight) createStars();
+    else createClouds();
+  });
+
+  init();
+</script>
 </body>
 </html>
