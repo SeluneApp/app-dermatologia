@@ -9,14 +9,25 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
-// Importação do arquivo de estilos globais
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import globalStyles from '../../../styles/globalStyles';
 
 function UpdatePasswordScreen({ navigation }) {
-  // Estados para armazenar as senhas do usuário
+  const [idUsuario, setIdUsuario] = useState(null);
+  const [emailUsuario, setEmailUsuario] = useState(null);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  
+  useEffect(() => {
+    async function loadUserData() {
+      const id = await AsyncStorage.getItem('id_usuario');
+      const email = await AsyncStorage.getItem('email_usuario');
+      setIdUsuario(id);
+      setEmailUsuario(email);
+    }
+    loadUserData();
+  }, []);
 
   // Animação para as estrelas
   const starOpacity = useRef(new Animated.Value(1)).current;
@@ -39,17 +50,54 @@ function UpdatePasswordScreen({ navigation }) {
   }, []);
 
   // Função para lidar com o clique no botão "Atualizar Senha"
-  const handleUpdatePassword = () => {
-    // Adicione sua lógica de validação e atualização de senha aqui.
+  const handleUpdatePassword = async () => {
     if (newPassword !== confirmNewPassword) {
-      console.log('As novas senhas não coincidem!');
-      // Você pode exibir uma mensagem de erro para o usuário aqui.
+    alert('As novas senhas não coincidem!');
+    return;
+  }
+  if (!idUsuario || !emailUsuario) {
+    alert('Usuário não autenticado');
+    return;
+  }
+
+  try {
+    // Verificar senha atual
+    const loginResponse = await fetch('https://faea7fd1fc66.ngrok-free.app/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email_usuario: emailUsuario, senha: currentPassword }),
+    });
+
+    const loginData = await loginResponse.json();
+
+    if (!loginData.sucesso) {
+      alert('Senha atual incorreta!');
       return;
     }
-    // Lógica para chamar a API de autenticação para atualizar a senha.
-    console.log('Senha atual:', currentPassword);
-    console.log('Nova senha:', newPassword);
-    // Exemplo: navigation.goBack(); para voltar à tela anterior
+    // Buscar dados atuais do usuário (para enviar junto no PATCH)
+    const usuarioResponse = await fetch(`https://faea7fd1fc66.ngrok-free.app/usuario/${idUsuario}`);
+    if (!usuarioResponse.ok) {
+      alert('Erro ao buscar dados do usuário.');
+      return;
+    }
+    const usuarioAtual = await usuarioResponse.json();
+    // Atualizar senha
+    const updateResponse = await fetch(`https://faea7fd1fc66.ngrok-free.app/usuarios/${idUsuario}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome_usuario: usuarioAtual.nome_usuario, email_usuario: usuarioAtual.email_usuario, senha: newPassword, }),
+    });
+
+    if (updateResponse.ok) {
+      alert('Senha atualizada com sucesso!');
+      navigation.goBack();
+    } else {
+      alert('Erro ao atualizar senha.');
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Erro ao conectar com o servidor.');
+  }    // Exemplo: navigation.goBack(); para voltar à tela anterior
   };
 
   return (

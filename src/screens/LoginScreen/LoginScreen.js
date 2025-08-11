@@ -1,36 +1,55 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Animated,
-  StyleSheet,
-  SafeAreaView,
-} from 'react-native';
-import globalStyles from '../../../styles/globalStyles';
+import React, {useState} from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, StyleSheet, Animated, starOpacity, SafeAreaView, request } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
+import StarryBackground from '../../../components/StarryBackground/StarryBackground'; // Caminho corrigido
+import globalStyles from '../../../styles/globalStyles'; //Importa os estilos Globais
 
 function LoginScreen({ navigation }) {
-  // Estado e efeito para a animação das estrelas
-  const starOpacity = useRef(new Animated.Value(1)).current;
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(starOpacity, {
-          toValue: 0.3,
-          duration: 2000,
-          useNativeDriver: true,
+async function handleLoginSuccess(token, id_usuario, email_usuario) {
+    try {
+      await AsyncStorage.setItem('userToken', token);
+      await AsyncStorage.setItem('id_usuario', id_usuario.toString());
+      await AsyncStorage.setItem('email_usuario', email_usuario);
+      navigation.replace('HomePageNoite');
+    } catch (error) {
+      console.error("Erro ao salvar token", error);
+    }
+  }
+
+const handleLogin = async () => {
+    if (!email || !senha) {
+      Alert.alert('Erro', 'Preencha todos os campos.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://faea7fd1fc66.ngrok-free.app/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email_usuario: email,
+          senha: senha
         }),
-        Animated.timing(starOpacity, {
-          toValue: 1,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
-  }, []);
+      });
+          
+      const data = await response.json();
+
+    if (data.sucesso) {
+      await handleLoginSuccess(data.token, data.usuario.id_usuario, data.usuario.email_usuario);
+      Alert.alert('Sucesso', data.mensagem);
+    } else {
+        Alert.alert('Erro', data.mensagem);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    }
+ 
+  };
 
   return (
     <View style={styles.mainWrapper}>
@@ -64,6 +83,9 @@ function LoginScreen({ navigation }) {
                 placeholder="Digite seu email"
                 placeholderTextColor="#ccc"
                 style={globalStyles.inputWithIcon}
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
               />
             </View>
 
@@ -77,15 +99,17 @@ function LoginScreen({ navigation }) {
                 placeholderTextColor="#ccc"
                 secureTextEntry
                 style={globalStyles.inputWithIcon}
+                value={senha}
+            onChangeText={setSenha}
               />
             </View>
             <Text style={globalStyles.atualizar} onPress={() => navigation.navigate('DelSenha')}>Esqueci minha senha</Text>
-            <TouchableOpacity style={globalStyles.button} onPress={() => navigation.navigate('HomePageNoite')}>
+            <TouchableOpacity style={globalStyles.button} onPress={handleLogin}>
               <Text style={globalStyles.buttonText}>Acessar</Text>
             </TouchableOpacity>
             <Text style={globalStyles.text}>ou</Text>
 
-            <TouchableOpacity style={globalStyles.buttonGooble} onPress={() => console.log('Acessar com Google')}>
+            <TouchableOpacity style={globalStyles.buttonGooble} disabled={!request} onPress={() => promptAsync()}>
               <View style={globalStyles.googleContent}>
                 <Image
                   source={require('../../../assets/images/Google.png')}
@@ -96,7 +120,7 @@ function LoginScreen({ navigation }) {
             </TouchableOpacity>
             <View style={globalStyles.registerPrompt}>
               <Text style={globalStyles.label}>Não tem uma conta? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
                 <Text style={globalStyles.linkText}>Cadastre-se</Text>
               </TouchableOpacity>
             </View>

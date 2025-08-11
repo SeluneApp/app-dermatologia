@@ -31,7 +31,7 @@ const ConfiguracoesScreen = ({ navigation }) => {
             </View>
 
             {/* Card de Perfil */}
-            <View style={styles.profileCard}>
+              <TouchableOpacity style={styles.profileCard} onPress={() => navigation.navigate('ProfileScreen')}>
               <View style={styles.profileInfo}>
                 <Image
                   source={require('../../../assets/images/Selune-Lune.png')} // Substitua pelo caminho do seu ícone de tartaruga
@@ -45,21 +45,21 @@ const ConfiguracoesScreen = ({ navigation }) => {
               <TouchableOpacity style={styles.premiumButton}>
                 <Text style={styles.premiumButtonText}>Seja Premium</Text>
               </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
 
             {/* Seção de Opções */}
             <View style={styles.sectionCard}>
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Temas')}>
+              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('temas')}>
                 <MaterialCommunityIcons name="moon-waxing-crescent" size={24} color="#fff" style={styles.optionIcon} />
                 <Text style={styles.optionText}>Temas</Text>
               </TouchableOpacity>
               <View style={styles.separator} />
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Contato')}>
+              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('contato')}>
                 <MaterialCommunityIcons name="email-outline" size={24} color="#fff" style={styles.optionIcon} />
                 <Text style={styles.optionText}>Contato</Text>
               </TouchableOpacity>
               <View style={styles.separator} />
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Configurações')}>
+              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('configuração')}>
                 <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" style={styles.optionIcon} />
                 <Text style={styles.optionText}>Configurações</Text>
               </TouchableOpacity>

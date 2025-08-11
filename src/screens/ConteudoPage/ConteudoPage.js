@@ -61,12 +61,12 @@ const ConteudoPage = ({ navigation }) => {
               <ContentCard
                 subtitle="Cuidados especiais da pele albina"
                 color="#4B0082" // Roxo
-                onPress={() => handleCardPress('DermatiteDetalhe')}
+                onPress={() => handleCardPress('DermatiteDetalhePage')}
               />
               <ContentCard
                 subtitle="Cuidados especiais da pele albina"
                 color="#4B0082"
-                onPress={() => handleCardPress('DermatiteDetalhe')}
+                onPress={() => handleCardPress('DermatiteDetalhePage')}
               />
             </View>
 
@@ -75,7 +75,7 @@ const ConteudoPage = ({ navigation }) => {
               <ContentCard
                 subtitle="Mentiras sobre Dermatite"
                 color="#4B0082"
-                onPress={() => handleCardPress('DermatiteDetalhe')}
+                onPress={() => handleCardPress('DermatiteDetalhePage')}
               />
               <ContentCard
                 subtitle="O que é dermatite?"

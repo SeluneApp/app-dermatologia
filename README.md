@@ -21,6 +21,8 @@ Siga os passos abaixo para configurar e rodar o projeto em sua máquina local.
    Instale o Node.js e o Expo CLI globalmente em sua máquina.  
    Comando:
    npm install -g expo-cli
+   npm install @react-native-async-storage/async-storage
+    npx expo install expo-auth-session
 
 2. Instalação:
    - Clone o repositório:

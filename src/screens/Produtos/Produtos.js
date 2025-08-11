@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -9,54 +9,46 @@ import {
   Animated,
   SafeAreaView,
   TextInput,
+  Alert
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-const produtosIndicados = [
-  {
-    id: '1',
-    nome: 'CeraVe - Creme Hidratante',
-    rating: 4.5,
-    marca: 'CeraVe',
-    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
-  },
-  {
-    id: '2',
-    nome: 'Creme facial - Natura',
-    rating: 4.0,
-    marca: 'Natura',
-    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
-  },
-];
-
-const maisProdutos = [
-  {
-    id: '3',
-    nome: 'Produto LightSkin - Boticário',
-    rating: 4.5,
-    marca: 'Boticário',
-    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
-  },
-  {
-    id: '4',
-    nome: 'Serum Vitamina C - Skinceuticals',
-    rating: 4.8,
-    marca: 'Skinceuticals',
-    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
-  },
-  {
-    id: '5',
-    nome: 'Hidratante Neutrogena Hydro Boost',
-    rating: 4.7,
-    marca: 'Neutrogena',
-    image: '../../../assets/images/produto_CeraVe.png', // Placeholder para imagem de exemplo
-  },
-];
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Produtos({ navigation }) {
-  // Efeito para a animação de opacidade das estrelas
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
+  const [produtosIndicados, setProdutosIndicados] = useState([]);
+  const [maisProdutos, setMaisProdutos] = useState([]);
   const starOpacity = useRef(new Animated.Value(1)).current;
 
+  // Carregar usuário logado
+  useEffect(() => {
+    async function carregarUsuario() {
+      const id = await AsyncStorage.getItem('id_usuario');
+      if (id) {
+        setUsuarioLogado({ id_usuario: Number(id) });
+      }
+    }
+    carregarUsuario();
+  }, []);
+
+  // Buscar produtos na API
+  useEffect(() => {
+    async function buscarProdutos() {
+      try {
+        const res = await fetch('https://faea7fd1fc66.ngrok-free.app/produtos');
+        const data = await res.json();
+
+
+        setProdutosIndicados(data.slice(0, 3)); 
+        setMaisProdutos(data.slice(3)); 
+      } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+      }
+    }
+    buscarProdutos();
+  }, []);
+
+  // Animação estrelas
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -77,10 +69,20 @@ export default function Produtos({ navigation }) {
   const renderItemProdutosIndicados = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate('Produto', { produto: item })}
+      onPress={() => {
+        if (usuarioLogado) {
+          navigation.navigate('Produto', { produto: item, id_usuario: usuarioLogado.id_usuario });
+        } else {
+          Alert.alert('Erro', 'Usuário não está logado.');
+        }
+      }}
     >
       <View style={styles.imagePlaceholder}>
-        <Image source={{ uri: item.image }} style={styles.image} resizeMode="contain" />
+        <Image
+          source={item.image ? { uri: item.image } : require('../../../assets/images/produto_CeraVe.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
       </View>
       <View style={styles.info}>
         <Text style={styles.nome}>{item.nome}</Text>
@@ -92,17 +94,23 @@ export default function Produtos({ navigation }) {
   const renderItemMaisProdutos = ({ item }) => (
     <TouchableOpacity
       style={styles.horizontalCard}
-      onPress={() => navigation.navigate('Produto', { produto: item })}
+      onPress={() => {
+        if (usuarioLogado) {
+          navigation.navigate('Produto', { produto: item, id_usuario: usuarioLogado.id_usuario });
+        } else {
+          Alert.alert('Erro', 'Usuário não está logado.');
+        }
+      }}
     >
-      <Image source={{ uri: item.image }} style={styles.horizontalImage} resizeMode="cover" />
+      <Image
+        source={item.image ? { uri: item.image } : require('../../../assets/images/produto_CeraVe.png')}
+        style={styles.horizontalImage}
+        resizeMode="cover"
+      />
       <Text style={styles.horizontalNome}>{item.nome}</Text>
       <Text style={styles.horizontalRating}>⭐ {item.rating}</Text>
     </TouchableOpacity>
   );
-
-  const handleNavigationPress = (screenName) => {
-    console.log(`Navegar para ${screenName}`);
-  };
 
   return (
     <View style={styles.mainWrapper}>
@@ -136,23 +144,23 @@ export default function Produtos({ navigation }) {
             <MaterialCommunityIcons name="feather" size={16} color="#fff" style={styles.searchIconRight} />
           </View>
 
-          {/* Seção "Produtos indicados para sua pele" */}
+          {/* Produtos indicados */}
           <Text style={styles.sectionTitle}>Produtos indicados para sua pele</Text>
           <FlatList
             data={produtosIndicados}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => String(item.id)}
             renderItem={renderItemProdutosIndicados}
             contentContainerStyle={styles.list}
           />
 
-          {/* Seção "Mais produtos" */}
+          {/* Mais produtos */}
           <View style={styles.horizontalSectionHeader}>
             <Text style={styles.sectionTitle}>Mais produtos</Text>
             <MaterialCommunityIcons name="arrow-right" size={24} color="#fff" />
           </View>
           <FlatList
             data={maisProdutos}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => String(item.id)}
             renderItem={renderItemMaisProdutos}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -161,21 +169,21 @@ export default function Produtos({ navigation }) {
         </View>
       </SafeAreaView>
 
-      {/* Barra de navegação inferior */}
+      {/* Barra inferior */}
       <View style={styles.bottomNav}>
-  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePageNoite')}>
-    <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ConteudoPage')}>
-    <MaterialCommunityIcons name="weather-lightning" size={24} color="#fff" />
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('Produtos')}>
-    <MaterialCommunityIcons name="feather" size={32} color="#000" />
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuração')}>
-    <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
-  </TouchableOpacity>
-</View>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePageNoite')}>
+          <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ConteudoPage')}>
+          <MaterialCommunityIcons name="weather-lightning" size={24} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('Produtos')}>
+          <MaterialCommunityIcons name="feather" size={32} color="#000" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuração')}>
+          <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

@@ -84,7 +84,7 @@ const HomePageNoite = ({ navigation }) => {
 
   // Alteração importante: A função agora irá navegar para a tela correta.
   const handleNavigationPress = (screenName) => {
-    if (screenName === 'Configuracoes') {
+    if (screenName === 'configuração') {
       navigation.navigate(screenName);
     } else {
       // Para as outras telas, você ainda pode manter o console.log

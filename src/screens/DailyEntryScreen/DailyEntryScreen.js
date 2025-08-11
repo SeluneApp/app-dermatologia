@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, TextInput, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const { width } = Dimensions.get('window');
 
@@ -11,8 +13,53 @@ const DailyEntryScreen = ({ navigation }) => {
   const [selectedFeeling, setSelectedFeeling] = useState([]);
   const [productName, setProductName] = useState('');
 
+  const [idUsuario, setIdUsuario] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const exposureOptions = ['15-30 min', '1-2 horas', '2-3 horas', '+ 3 horas'];
   const feelingOptions = ['coceira', 'ardencia', 'dor'];
+
+  
+  // Função para buscar id do usuário logado (simular pegar do AsyncStorage, por ex)
+  useEffect(() => {
+    async function carregarUsuario() {
+      // Aqui você busca o id do usuário (pode ser AsyncStorage ou contexto)
+      // Exemplo AsyncStorage:
+      const id = await AsyncStorage.getItem('id_usuario');
+      if (id) {
+        setIdUsuario(Number(id));
+      }
+    }
+    carregarUsuario();
+  }, []);
+
+  // Ao carregar o usuário, buscar entradas anteriores e setar estado para marcar respostas
+  useEffect(() => {
+  async function buscarEntradas() {
+    if (!idUsuario) return;
+
+    try {
+      const response = await fetch(`https://faea7fd1fc66.ngrok-free.app/usuario/${idUsuario}/entradas`);
+      const data = await response.json();
+
+      if (data.length > 0) {
+        const ultimaEntrada = data[0];
+        setSelectedExposure(ultimaEntrada.exposicao);
+         setHasRedness(ultimaEntrada.vermelhidao);
+         setSelectedFeeling(ultimaEntrada.sentimentos || []);
+         setProductName(ultimaEntrada.medicamento || '');  // preenche o campo medicamento
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível carregar as entradas salvas.');
+      setLoading(false);
+    }
+  }
+
+  buscarEntradas();
+}, [idUsuario]);
+
 
   const handleFeelingSelect = (feeling) => {
     setSelectedFeeling((prev) =>
@@ -22,12 +69,45 @@ const DailyEntryScreen = ({ navigation }) => {
     );
   };
 
+  // Função que envia os dados para o backend
+  const salvarEntrada = async () => {
+    if (!idUsuario) {
+      Alert.alert('Erro', 'Usuário não identificado.');
+      return;
+    }
+
+
+    const entrada = {
+  id_usuario: idUsuario,
+  exposicao: selectedExposure,
+  vermelhidao: hasRedness,
+  sentimentos: selectedFeeling,
+  medicamento: productName,  
+};
+   console.log(entrada)
+
+    try {
+      const response = await fetch('https://seu-endereco-api/entrada', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entrada),
+      });
+
+      if (response.ok) {
+        Alert.alert('Sucesso', 'Entrada salva com sucesso!');
+        // Opcional: navegue para outra tela ou reset estados aqui
+      } else {
+        Alert.alert('Erro', 'Não foi possível salvar a entrada.');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Falha ao salvar a entrada.');
+    }
+  };
+
   return (
     <View style={styles.mainWrapper}>
-      <LinearGradient
-        colors={['#1F0E4D', '#3B176B']}
-        style={styles.backgroundImage}
-      >
+      <LinearGradient colors={['#1F0E4D', '#3B176B']} style={styles.backgroundImage}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
@@ -59,10 +139,7 @@ const DailyEntryScreen = ({ navigation }) => {
               {exposureOptions.map((option) => (
                 <TouchableOpacity
                   key={option}
-                  style={[
-                    styles.optionButton,
-                    selectedExposure === option && styles.selectedOption,
-                  ]}
+                  style={[styles.optionButton, selectedExposure === option && styles.selectedOption]}
                   onPress={() => setSelectedExposure(option)}
                 >
                   <Text style={styles.optionText}>{option}</Text>
@@ -76,19 +153,13 @@ const DailyEntryScreen = ({ navigation }) => {
             <Text style={styles.sectionQuestion}>Sua pele apresenta vermelhidões?</Text>
             <View style={styles.optionsContainer}>
               <TouchableOpacity
-                style={[
-                  styles.optionButton,
-                  hasRedness === true && styles.selectedOption,
-                ]}
+                style={[styles.optionButton, hasRedness === true && styles.selectedOption]}
                 onPress={() => setHasRedness(true)}
               >
                 <Text style={styles.optionText}>sim</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[
-                  styles.optionButton,
-                  hasRedness === false && styles.selectedOption,
-                ]}
+                style={[styles.optionButton, hasRedness === false && styles.selectedOption]}
                 onPress={() => setHasRedness(false)}
               >
                 <Text style={styles.optionText}>não</Text>
@@ -103,10 +174,7 @@ const DailyEntryScreen = ({ navigation }) => {
               {feelingOptions.map((feeling) => (
                 <TouchableOpacity
                   key={feeling}
-                  style={[
-                    styles.optionButton,
-                    selectedFeeling.includes(feeling) && styles.selectedOption,
-                  ]}
+                  style={[styles.optionButton, selectedFeeling.includes(feeling) && styles.selectedOption]}
                   onPress={() => handleFeelingSelect(feeling)}
                 >
                   <Text style={styles.optionText}>{feeling}</Text>
@@ -130,19 +198,15 @@ const DailyEntryScreen = ({ navigation }) => {
       </LinearGradient>
 
       {/* Botão flutuante + com degradê */}
-      <TouchableOpacity style={styles.plusButtonContainer}>
-        <LinearGradient
-          colors={['#8A2BE2', '#4B0082']} // Degradê de roxo para roxo mais escuro
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.plusButton}
-        >
+      <TouchableOpacity style={styles.plusButtonContainer} onPress={salvarEntrada}>
+        <LinearGradient colors={['#8A2BE2', '#4B0082']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.plusButton}>
           <Text style={styles.plusIcon}>+</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   mainWrapper: {

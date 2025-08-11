@@ -2,6 +2,7 @@
   "expo": {
     "name": "Selune",
     "slug": "Selune",
+    "owner": "meuUsuarioExpo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo_Lua.png",

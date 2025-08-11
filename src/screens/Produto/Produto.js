@@ -1,27 +1,58 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { AntDesign, FontAwesome } from '@expo/vector-icons'; // Importe FontAwesome aqui
-
-// Importe a imagem local. Certifique-se de que o caminho está correto.
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign, FontAwesome } from '@expo/vector-icons'; 
 import CeraVeImage from '../../../assets/images/produto_CeraVe.png';
 
-export default function Produto({ route }) {
-  const navigation = useNavigation();
-  const [avaliacao, setAvaliacao] = useState(0); // Novo estado para a avaliação do cliente
+export default function Produto({ route, navigation }) {
 
-  // Objeto de fallback para caso nenhuma informação seja passada
-  const { produto } = route.params || {
+  const [avaliacao, setAvaliacao] = useState(0);
+  const [idUsuario, setIdUsuario] = useState(null);
+
+  useEffect(() => {
+    async function carregarUsuario() {
+      const id = await AsyncStorage.getItem('id_usuario');
+      if (id) setIdUsuario(id);
+    }
+    carregarUsuario();
+  }, []);
+
+ const produto = route.params?.produto ?? {
+    id: 1,
     nome: 'CeraVe - Creme Hidratante',
     rating: 4.5,
     descricaoCurta: 'Creme Hidratante Corporal, com textura Cremosa e Ácido Hialurônico',
     ingredientes: 'ÁGUA, GLICEROL, ÁLCOOL CETOESTEARÍLICO, TRIGLICERÍDEO CAPRÍLICO/CÁPRICO, ÁLCOOL CETÍLICO, CETOMACROGOL 1000, PETROLATO AMARELO, FOSFATO DE POTÁSSIO MONOBÁSICO, CERAMIDA NP, CERAMIDA AP, CERAMIDA EOP, CARBOMER, DIMETICONA, METOSSULFATO DE BEENTRIMÔNIO, LAUROIL LACTILATO DE SÓDIO, HIALURONATO DE SÓDIO, COLESTEROL, FENOXIETANOL, EDETATO DISSÓDICO, FOSFATO DE POTÁSSIO DIBÁSICO, TOCOFEROL, FITOESFINGOSINA, GOMA XANTANA',
     caracteristicas: ['Hipoalergênico', 'Para pele seca', 'Tecnologia MVE', 'Não comedogênico', 'Ácido hialurônico', 'Ceramidas'],
-    // Usa a imagem importada como fallback
     imagem: CeraVeImage,
   };
 
-  // Função para renderizar as estrelas de avaliação do cliente (clicáveis)
+  const salvarProduto = async () => {
+    if (!idUsuario) {
+      Alert.alert('Erro', 'Usuário não identificado. Faça login.');
+      return;
+    }
+    try {
+      const response = await fetch('https://faea7fd1fc66.ngrok-free.app/produtos_salvos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id_usuario: Number(idUsuario),
+          produtoId: produto.id,
+        }),
+      });
+
+      if (response.status === 201) {
+  navigation.navigate('ProdutoSalvo'); // Vai para a tela de produtos salvos
+} else if (response.status === 409) {
+  navigation.navigate('ProdutoSalvo'); // Também pode ir para lá se já estiver salvo
+}
+    } catch (error) {
+      Alert.alert('Erro', 'Erro ao salvar o produto.');
+      console.error(error);
+    }
+  };
+
   const renderAvaliacaoStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -30,7 +61,7 @@ export default function Produto({ route }) {
           <AntDesign 
             name={i <= avaliacao ? 'star' : 'staro'}
             size={30}
-            color={i <= avaliacao ? '#FFD700' : '#fff'} // Altera a cor se a estrela estiver selecionada
+            color={i <= avaliacao ? '#FFD700' : '#fff'}
             style={styles.avaliacaoStar}
           />
         </TouchableOpacity>
@@ -38,7 +69,7 @@ export default function Produto({ route }) {
     }
     return stars;
   };
-
+    
   // Função para renderizar as estrelas de nota do produto (não clicáveis)
   const renderStars = (rating) => {
     const stars = [];
@@ -83,6 +114,10 @@ export default function Produto({ route }) {
           <Text style={styles.productDescription}>{produto.descricaoCurta}</Text>
         </View>
       </View>
+
+      <TouchableOpacity style={styles.salvarButton} onPress={salvarProduto}>
+          <Text style={styles.salvarButtonText}>Salvar Produto</Text>
+       </TouchableOpacity>
 
       <View style={styles.avaliacaoContainer}>
         <Text style={styles.avaliacaoTitle}>Avalie o produto</Text>
@@ -169,6 +204,14 @@ const styles = StyleSheet.create({
     color: '#ccc',
     marginTop: 5,
   },
+salvarButton: {
+  backgroundColor: '#3a3a4c',   // cor de fundo para destacar
+  paddingVertical: 12,
+  paddingHorizontal: 20,
+  borderRadius: 8,
+  alignItems: 'center',
+  marginBottom: 20,
+},
   divider: {
     height: 1,
     backgroundColor: '#3a3a4c',

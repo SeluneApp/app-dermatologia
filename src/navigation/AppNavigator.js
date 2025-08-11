@@ -16,6 +16,9 @@ import ConteudoPage from '../screens/ConteudoPage/ConteudoPage';
 import DermatiteDetalhePage from '../screens/DermatiteDetalhePage/DermatiteDetalhePage';
 import configuração from '../screens/configuração/configuração';
 import DelSenha from '../screens/DelSenha/DelSenha';
+import RegisterScreen from '../screens/RegisterScreen/RegisterScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+
 
 
 
@@ -24,13 +27,15 @@ const Stack = createStackNavigator();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="Home" component={LoginScreen} />
         <Stack.Screen name="DailyEntryScreen" component={DailyEntryScreen} />
         <Stack.Screen name="HomePageNoite" component={HomePageNoite} />
         <Stack.Screen name="CalendarioNoite" component={CalendarioNoite} />
         <Stack.Screen name="RegistroNoite" component={RegistroNoite} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
         <Stack.Screen name="Produtos" component={Produtos} />
         <Stack.Screen name="Produto" component={Produto} />
         <Stack.Screen name="ProdutoSalvo" component={ProdutoSalvo} />
