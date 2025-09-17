@@ -1,0 +1,4 @@
+Host github-selune
+    HostName github.com
+    User git
+    IdentityFile C:/Users/Norton/.ssh/id_ed25519
