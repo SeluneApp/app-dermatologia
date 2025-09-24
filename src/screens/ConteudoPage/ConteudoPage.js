@@ -112,25 +112,25 @@ const ConteudoPage = ({ navigation }) => {
             style={styles.navButton}
             onPress={() => navigation.navigate('HomePageNoite')}
           >
-            <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
+            <MaterialCommunityIcons name="cloud-outline" size={28} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButtonActive}
             onPress={() => navigation.navigate('ConteudoPage')}
           >
-            <MaterialCommunityIcons name="weather-lightning" size={32} color="#000" />
+            <MaterialCommunityIcons name="weather-lightning" size={28} color="#000" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
             onPress={() => navigation.navigate('Produtos')}
           >
-            <MaterialCommunityIcons name="feather" size={24} color="#fff" />
+            <MaterialCommunityIcons name="feather" size={28} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
             onPress={() => navigation.navigate('configuração')}
           >
-            <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+            <MaterialCommunityIcons name="cog-outline" size={28} color="#fff" />
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -231,10 +231,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: 10,
+    height: 90,
+    paddingBottom: 5,
     borderTopWidth: 1,
-    borderTopColor: '#1A1E3B',
-    backgroundColor: 'rgba(10, 14, 42, 0.8)',
+    backgroundColor: 'rgba(217, 217, 217, 0.1)',
+      borderRadius: 50,
     position: 'absolute',
     bottom: 0,
     left: 0,

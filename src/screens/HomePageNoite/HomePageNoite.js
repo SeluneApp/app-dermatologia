@@ -121,13 +121,14 @@ const HomePageNoite = () => {
   const handleProductTipsPress = () => navigation.navigate('Produtos');
 
   return (
+
     <View style={styles.mainWrapper}>
       <Image
         source={require('../../../assets/images/StarryBackground.png')}
         style={styles.backgroundImage}
       />
       <Animated.View style={[styles.animatedStars, { opacity: starOpacity }]} />
-
+      <View style={styles.roundedElement} />
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
@@ -138,7 +139,10 @@ const HomePageNoite = () => {
           <View style={styles.header}>
             <Text style={styles.title}>Hoje</Text>
             <TouchableOpacity onPress={toggleCalendar}>
-              <Text style={styles.calendarIcon}>📅</Text>
+              <Image
+        source={require('../../../assets/images/calendario.png' )}
+        style={{ width: 34, height: 34 }}
+         />
             </TouchableOpacity>
           </View>
 
@@ -166,18 +170,18 @@ const HomePageNoite = () => {
               markedDates={{
                 [selectedDay]: {
                   selected: true,
-                  selectedColor: '#8A2BE2',
+                  selectedColor: '#892be2a9',
                   selectedTextColor: '#fff',
                 },
               }}
               style={styles.calendar}
               theme={{
-                calendarBackground: '#333355',
+                calendarBackground: '#9278c9de',
                 dayTextColor: '#fff',
                 monthTextColor: '#fff',
                 arrowColor: '#fff',
-                todayTextColor: '#ADFF2F',
-                selectedDayBackgroundColor: '#8A2BE2',
+                todayTextColor: '#4dd5ffd5',
+                selectedDayBackgroundColor: '#af98dfff',
                 selectedDayTextColor: '#ffffff',
                 textDisabledColor: '#ccc',
               }}
@@ -188,10 +192,11 @@ const HomePageNoite = () => {
           <TouchableOpacity
             style={styles.registerButton}
             onPress={handleRegisterPress}
-          >
-            <Text style={styles.registerText}>Registre sua pele:</Text>
+          ><View style={styles.registerTextContainer}> {/* NOVO CONTÊINER PARA OS TEXTOS */}
+            <Text style={styles.registerTitle}>Registre sua pele:</Text> {/* NOVO ESTILO */}
+            <Text style={styles.registerSubtitle}>Sintomas e aparência</Text> {/* NOVO ESTILO */}
+          </View>
             <View style={styles.registerInput}>
-              <Text style={{ color: '#888' }}>Sintomas e aparência</Text>
             </View>
             <View style={styles.plusButton}>
               <Text style={styles.plusIcon}>+</Text>
@@ -275,25 +280,25 @@ const HomePageNoite = () => {
           style={styles.navButtonActive}
           onPress={() => navigation.navigate('HomePageNoite')}
         >
-          <MaterialCommunityIcons name="cloud-outline" size={32} color="#000" />
+          <MaterialCommunityIcons name="cloud-outline" size={28} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => navigation.navigate('ConteudoPage')}
         >
-          <MaterialCommunityIcons name="weather-lightning" size={24} color="#fff" />
+          <MaterialCommunityIcons name="weather-lightning" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => navigation.navigate('Produtos')}
         >
-          <MaterialCommunityIcons name="feather" size={24} color="#fff" />
+          <MaterialCommunityIcons name="feather" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navButton}
           onPress={() => navigation.navigate('configuração')}
         >
-          <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+          <MaterialCommunityIcons name="cog-outline" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -306,6 +311,21 @@ const styles = StyleSheet.create({
   contentContainer: { paddingBottom: 100 },
   backgroundImage: { position: 'absolute', width: '100%', height: '100%', resizeMode: 'cover' },
   animatedStars: { ...StyleSheet.absoluteFillObject },
+   roundedElement: { //elemento do fundo
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '60%', 
+    backgroundColor: '#11132b65', 
+    borderBottomLeftRadius: 200, 
+    borderBottomRightRadius: 200, 
+  },
+  overlayContent: {
+    position: 'relative',
+    flex: 1,
+    paddingTop: 40,
+    paddingHorizontal: 20,
+  },
   overlayContent: { flex: 1, paddingTop: 40, paddingHorizontal: 20, paddingBottom: 100 },
   header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
   title: { fontSize: 24, fontWeight: 'bold', color: '#fff' },
@@ -314,13 +334,22 @@ const styles = StyleSheet.create({
   dayColumn: { alignItems: 'center' },
   dayText: { fontSize: 14, color: '#ccc' },
   dateText: { fontSize: 18, fontWeight: 'bold', color: '#fff' },
-  selectedDayColumn: { backgroundColor: '#8A2BE2', borderRadius: 20, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', marginTop: -5 },
+  selectedDayColumn: { backgroundColor: '#af98dfff', borderRadius: 20, width: 50, height: 50, justifyContent: 'center', alignItems: 'center', marginTop: -5 },
   calendar: { marginBottom: 20, borderRadius: 10, overflow: 'hidden' },
-  registerButton: { backgroundColor: '#8A2BE2', borderRadius: 10, padding: 15, marginBottom: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  registerText: { color: '#fff', fontWeight: 'bold' },
-  registerInput: { backgroundColor: '#D8BFD8', borderRadius: 5, paddingVertical: 8, paddingHorizontal: 10, marginLeft: 10, flex: 1 },
-  plusButton: { backgroundColor: '#1E90FF', borderRadius: 15, width: 30, height: 30, justifyContent: 'center', alignItems: 'center', marginLeft: 10 },
-  plusIcon: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  registerButton: { backgroundColor: '#A983BFA6', borderRadius: 18, padding: 15, marginBottom: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  registerTextContainer: {flex:1, backgroundColor: '#af98dfff', borderRadius: 14, paddingVertical: 8, paddingHorizontal: 10, marginLeft: 10,},
+  registerTitle:{
+    color:"#fff",
+    fontWeight:'bold',
+    fontSize:16,
+  },
+  registerSubtitle:{
+   color:"#fff",
+    fontWeight:'light',
+    fontSize:12,
+  },
+  plusButton: { backgroundColor: '#24e7f1ff', borderRadius: 16,paddingHorizontal:14, paddingVertical:5, justifyContent: 'center', alignItems: 'center', marginLeft: 10 },
+  plusIcon: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
   dailyTipsSection: { marginBottom: 3 },
   dailyTipsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
   todayText: { color: '#fff', marginRight: 5, opacity: 0.8 },
@@ -341,7 +370,20 @@ const styles = StyleSheet.create({
   ratingContainer: { flexDirection: 'row', alignItems: 'center' },
   ratingStar: { color: 'gold', marginRight: 5 },
   rating: { color: '#fff', fontSize: 12 },
-  bottomNav: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderTopColor: '#1A1E3B', backgroundColor: 'rgba(10, 14, 42, 0.8)', position: 'absolute', bottom: 0, left: 0, right: 0 },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 90,
+    paddingBottom: 5,
+    borderTopWidth: 1,
+    backgroundColor: 'rgba(217, 217, 217, 0.1)',
+      borderRadius: 50,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   navButton: { padding: 10 },
   navButtonActive: { backgroundColor: '#fff', borderRadius: 50, width: 60, height: 60, justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
 });

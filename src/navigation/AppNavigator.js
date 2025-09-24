@@ -23,11 +23,13 @@ import DermatiteMitosDetalhePage from "../screens/DermatiteMitosDetalhePage/Derm
 import CadastrarScreen from '../screens/cadastrar/CadastrarScreen';
 const Stack = createStackNavigator();
 
+
+
 export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="cadastrar"
+        initialRouteName="FormScreen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="FormScreen" component={Form} />
@@ -46,8 +48,8 @@ export default function AppNavigator() {
         <Stack.Screen name="configuração" component={Configuracao} />
         <Stack.Screen name="DelSenha" component={DelSenha} />
         <Stack.Screen name="ConfiguracaoNoite" component={ConfiguracaoNoite} />
-        <Stack.Screen name="CuidadosEspeciaisAlbinismoDetalhe"component={CuidadosEspeciaisAlbinismoDetalhe}/>
-        <Stack.Screen name="DermatiteMitosDetalhePage" component={DermatiteMitosDetalhePage}/>
+        <Stack.Screen name="CuidadosEspeciaisAlbinismoDetalhe" component={CuidadosEspeciaisAlbinismoDetalhe} />
+        <Stack.Screen name="DermatiteMitosDetalhePage" component={DermatiteMitosDetalhePage} />
         <Stack.Screen name="cadastrar" component={CadastrarScreen} />
       </Stack.Navigator>
     </NavigationContainer>

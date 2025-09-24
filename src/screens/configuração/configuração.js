@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Dimensions, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity,Linking, ScrollView, SafeAreaView, Dimensions, Image, Alert, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -36,18 +36,22 @@ const ConfiguracoesScreen = ({ navigation }) => {
   };
 
 
+
+
   return (
     <View style={styles.mainWrapper}>
-      <LinearGradient
-        colors={['#1F0E4D', '#3B176B']}
+      {/* Imagem de fundo que ocupa a tela inteira */}
+      <Image
+        source={require('../../../assets/images/StarryBackground.png')}
         style={styles.backgroundImage}
-      >
-        <SafeAreaView style={styles.safeArea}> 
-          <ScrollView
-            style={styles.container}
-            contentContainerStyle={styles.contentContainer}
-            showsVerticalScrollIndicator={false}
-          >
+      />
+
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+        >
             {/* Header com botão de voltar */}
             <View style={styles.header}>
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -92,7 +96,7 @@ const ConfiguracoesScreen = ({ navigation }) => {
 
             {/* Seção de Redes Sociais */}
             <View style={styles.sectionCard}>
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Instagram')}>
+              <TouchableOpacity style={styles.optionItem}  onPress={() => Linking.openURL('https://www.instagram.com/seluneapp?igsh=MWxjdmZ4a3FtbXYxeg==')}>
                 <MaterialCommunityIcons name="instagram" size={24} color="#fff" style={styles.optionIcon} />
                 <Text style={styles.optionText}>Instagram</Text>
               </TouchableOpacity>
@@ -104,21 +108,20 @@ const ConfiguracoesScreen = ({ navigation }) => {
             </View>
           </ScrollView>
         </SafeAreaView>
-      </LinearGradient>
 
       {/* Barra de navegação inferior */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePageNoite')}>
-          <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
+          <MaterialCommunityIcons name="cloud-outline" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ConteudoPage')}>
-          <MaterialCommunityIcons name="weather-lightning" size={24} color="#fff" />
+          <MaterialCommunityIcons name="weather-lightning" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Produtos')}>
-          <MaterialCommunityIcons name="feather" size={24} color="#fff" />
+          <MaterialCommunityIcons name="feather" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('configuração')}>
-          <MaterialCommunityIcons name="cog-outline" size={32} color="#000" />
+          <MaterialCommunityIcons name="cog-outline" size={28} color="#000" />
         </TouchableOpacity>
       </View>
     </View>
@@ -128,21 +131,25 @@ const ConfiguracoesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   mainWrapper: {
     flex: 1,
-    backgroundColor: '#1F0E4D',
   },
   backgroundImage: {
-    flex: 1,
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   safeArea: {
     flex: 1,
+    backgroundColor: 'transparent',
   },
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: 'transparent',
   },
   contentContainer: {
     paddingTop: 20,
-    paddingBottom: 100, 
+    paddingBottom: 100,
   },
   header: {
     paddingBottom: 20,
@@ -155,14 +162,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-  // Estilos para o card de perfil
+
+  // --- Estilos Corrigidos para o Card de Perfil ---
   profileCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 15,
+    backgroundColor: '#a983bfc0', // Cor roxa escura sólida do card
+    borderRadius: 20, // Cantos mais arredondados
     padding: 20,
     marginBottom: 20,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderWidth: 1,
+    // Removidas as bordas
   },
   profileInfo: {
     flexDirection: 'row',
@@ -174,7 +181,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginRight: 15,
-    backgroundColor: '#5A3E8A', // Cor de fundo para o ícone
+    backgroundColor: 'transparent', // Fundo transparente
   },
   profileText: {
     flex: 1,
@@ -193,20 +200,21 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-end', // Alinha à direita
+    marginTop: -30, // Move o botão para cima, sobrepondo o card
   },
   premiumButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
-  // Estilos para as seções de opções
+
+  // --- Estilos Corrigidos para as Seções de Opções ---
   sectionCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 15,
+    backgroundColor: 'transparent', // Cor roxa escura sólida
+    borderRadius: 20,
     padding: 15,
     marginBottom: 20,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderWidth: 1,
+    // Removidas as bordas
   },
   optionItem: {
     flexDirection: 'row',
@@ -215,6 +223,7 @@ const styles = StyleSheet.create({
   },
   optionIcon: {
     marginRight: 15,
+    color: '#ccc', // Ícones em tom de cinza claro
   },
   optionText: {
     color: '#fff',
@@ -225,15 +234,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     marginVertical: 5,
   },
-  // Estilos para a barra de navegação inferior
+
+  // --- Estilos da Barra de Navegação Inferior ---
   bottomNav: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: 10,
+    height: 90,
+    paddingBottom: 5,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.1)',
-    backgroundColor: 'rgba(10, 14, 42, 0.8)',
+    backgroundColor: 'rgba(217, 217, 217, 0.1)',
+      borderRadius: 50,
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -252,5 +263,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
 
 export default ConfiguracoesScreen;

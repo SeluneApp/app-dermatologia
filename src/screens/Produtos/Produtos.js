@@ -121,16 +121,16 @@ export default function Produtos({ navigation }) {
       {/* Barra inferior */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePageNoite')}>
-          <MaterialCommunityIcons name="cloud-outline" size={24} color="#fff" />
+          <MaterialCommunityIcons name="cloud-outline" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ConteudoPage')}>
-          <MaterialCommunityIcons name="weather-lightning" size={24} color="#fff" />
+          <MaterialCommunityIcons name="weather-lightning" size={28} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('Produtos')}>
-          <MaterialCommunityIcons name="feather" size={32} color="#000" />
+          <MaterialCommunityIcons name="feather" size={28} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuração')}>
-          <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" />
+          <MaterialCommunityIcons name="cog-outline" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -164,7 +164,19 @@ const styles = StyleSheet.create({
   horizontalImage: { width: 120, height: 120, borderRadius: 10, marginBottom: 10 },
   horizontalNome: { color: '#fff', fontSize: 14, fontWeight: 'bold', textAlign: 'center' },
   horizontalRating: { color: '#FFD700', fontSize: 12, marginTop: 5 },
-  bottomNav: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderTopColor: '#1A1E3B', backgroundColor: 'rgba(10, 14, 42, 0.8)', position: 'absolute', bottom: 0, left: 0, right: 0 },
-  navButton: { padding: 10 },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 90,
+    paddingBottom: 5,
+    borderTopWidth: 1,
+    backgroundColor: 'rgba(217, 217, 217, 0.1)',
+      borderRadius: 50,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   navButtonActive: { backgroundColor: '#fff', borderRadius: 50, width: 60, height: 60, justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
 });
