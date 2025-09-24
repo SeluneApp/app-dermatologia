@@ -1,339 +1,1536 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Selune - Apoio e Visibilidade para sua Pele</title>
-<style>
-  * {
-    margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif;
-  }
-  body {
-    overflow-x: hidden;
-    transition: background 2s ease;
-  }
-  body.noite {
-    background: linear-gradient(to bottom, #0a0a1f, #1a1a40, #3b3b6b, #e2cfcf);
-    color: white;
-  }
-  body.dia {
-    background: linear-gradient(to bottom, #87ceeb, #a6dcef, #f6f9fc, #fffde7);
-    color: #333;
-  }
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: -1;
-    pointer-events: none;
-  }
-  header {
-    display: flex; justify-content: space-between; align-items: center; padding: 20px 10%;
-  }
-  header img {
-    height: 120px; width: auto;
-    cursor: pointer;
-    transition: filter 0.5s ease;
-  }
-  nav a {
-    color: inherit;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-  nav a:hover {
-    color: #ffcc88;
-  }
-  .hero {
-    text-align: center; padding: 100px 20px;
-  }
-  .hero h1 {
-    font-size: 3rem;
-  }
-  body.noite .hero h1 {
-    color: #ffd1a1;
-  }
-  body.dia .hero h1 {
-    color: #4a4a4a;
-  }
-  .hero p {
-    margin: 20px auto;
-    font-size: 1.2rem;
-    max-width: 600px;
-  }
-  body.noite .hero p {
-    color: white;
-  }
-  body.dia .hero p {
-    color: #555;
-  }
-  .btn {
-    background: #ffcc88;
-    color: #000;
-    padding: 15px 25px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .btn:hover {
-    background: #ffaa33;
-  }
-  section {
-    padding: 80px 10%;
-    text-align: center;
-  }
-  .diferenciais {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-  }
-  .card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 30px;
-    border-radius: 20px;
-    transition: 0.3s;
-  }
-  .card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.1);
-  }
-  body.dia .card {
-    background: rgba(0, 0, 0, 0.05);
-    color: #222;
-  }
-  body.dia .card:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-  footer {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 30px;
-    text-align: center;
-    font-size: 0.9rem;
-    color: white;
-  }
-  body.dia footer {
-    background: rgba(200, 180, 100, 0.4);
-    color: #444;
-  }
-</style>
-</head>
-<body class="noite">
-
-<canvas id="canvas"></canvas>
-
-<header>
-  <!-- Logo inicial: lua -->
-  <img id="logo" src="Logo_Lua.png" alt="Logo Selune" title="Clique para mudar para o dia" />
-  <nav>
-    <a href="#sobre">Sobre</a>
-    <a href="#diferenciais">Diferenciais</a>
-    <a href="#download">Baixar</a>
-    <a href="#contato">Contato</a>
-  </nav>
-</header>
-
-<div class="hero">
-  <h1>Selune - Apoio e Visibilidade para sua Pele</h1>
-  <p>Um aplicativo dedicado a apoiar pessoas com peles sensíveis e que enfrentam doenças dermatológicas, ajudando a dar visibilidade e incentivando o cuidado com especialistas.</p>
-  <button class="btn" onclick="window.location='#download'">Baixar Agora</button>
-</div>
-
-<section id="sobre">
-  <h2>Quem Somos</h2>
-  <p>O Selune surgiu para ajudar quem tem vergonha da própria pele, dando mais visibilidade e encorajando a busca por médicos especializados. Queremos que você se sinta acolhido e informado.</p>
-</section>
-
-<section id="diferenciais">
-  <h2>Nossos Diferenciais</h2>
-  <div class="diferenciais">
-    <div class="card">
-      <h3>Apoio e Comunidade</h3>
-      <p>Ambiente acolhedor para compartilhar experiências e receber apoio sem julgamentos.</p>
-    </div>
-    <div class="card">
-      <h3>Foco em Pelas Sensíveis e Doenças Dermatológicas</h3>
-      <p>Conteúdo pensado especialmente para quem vive com peles sensíveis e condições dermatológicas.</p>
-    </div>
-    <div class="card">
-      <h3>Incentivo ao Cuidado Profissional</h3>
-      <p>Encorajamos sempre a busca por avaliação médica especializada, sem substituir diagnósticos.</p>
-    </div>
-    <div class="card">
-      <h3>Informação Confiável</h3>
-      <p>Artigos e dicas baseados em fontes confiáveis para ajudar no cuidado do dia a dia.</p>
-    </div>
-  </div>
-</section>
-
-<section id="download">
-  <h2>Baixe o Selune</h2>
-  <p>Disponível para Android e iOS.</p>
-  <button class="btn">Baixar no Google Play</button>
-  <button class="btn">Baixar na App Store</button>
-</section>
-
-<section id="contato">
-  <h2>Entre em Contato</h2>
-  <p>Email: contato@selune.com</p>
-  <p>Instagram: @seluneapp</p>
-</section>
-
-<footer>
-  &copy; 2025 Selune. Todos os direitos reservados.
-</footer>
-
-<script>
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  let w, h;
-
-  let stars = [];
-  let clouds = [];
-
-  // Estado: true = noite, false = dia
-  let isNight = true;
-
-  // Ajusta tamanho do canvas
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-
-  // Estrelas para noite
-  function createStars() {
-    stars = [];
-    for (let i = 0; i < 150; i++) {
-      stars.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        radius: Math.random() * 1.5,
-        speed: Math.random() * 0.5 + 0.1
-      });
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selune - A Revolução no Autocuidado da Pele</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-  }
 
-  // Nuvens para dia - iniciam fora da tela para evitar corte
-  function createClouds() {
-    clouds = [];
-    for (let i = 0; i < 12; i++) {
-      clouds.push({
-        x: w + Math.random() * w, // começa totalmente fora da tela à direita
-        y: Math.random() * (h / 3),
-        radius: 60 + Math.random() * 40,
-        speed: 0.3 + Math.random() * 0.3,
-        opacity: 0.4 + Math.random() * 0.4
-      });
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      /* Degradê adicionado aqui */
+      background: linear-gradient(135deg, #010F43, #001961);
+      color: white;
     }
-  }
 
-  // Desenha nuvem volumosa
-  function drawCloud(cloud) {
-  ctx.save();
-  ctx.fillStyle = `rgba(255, 255, 255, ${cloud.opacity})`;
-  ctx.shadowColor = `rgba(255, 255, 255, ${cloud.opacity * 0.6})`;
-  ctx.shadowBlur = 15;
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
 
-  // Desenha base retangular arredondada para suavizar a parte de baixo
-  const rectX = cloud.x - cloud.radius * 0.8;
-  const rectY = cloud.y;
-  const rectWidth = cloud.radius * 2.2;
-  const rectHeight = cloud.radius * 0.7;
-  const radius = rectHeight / 2;
+    header .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  ctx.beginPath();
-  ctx.moveTo(rectX + radius, rectY);
-  ctx.lineTo(rectX + rectWidth - radius, rectY);
-  ctx.quadraticCurveTo(rectX + rectWidth, rectY, rectX + rectWidth, rectY + radius);
-  ctx.lineTo(rectX + rectWidth, rectY + rectHeight - radius);
-  ctx.quadraticCurveTo(rectX + rectWidth, rectY + rectHeight, rectX + rectWidth - radius, rectY + rectHeight);
-  ctx.lineTo(rectX + radius, rectY + rectHeight);
-  ctx.quadraticCurveTo(rectX, rectY + rectHeight, rectX, rectY + rectHeight - radius);
-  ctx.lineTo(rectX, rectY + radius);
-  ctx.quadraticCurveTo(rectX, rectY, rectX + radius, rectY);
-  ctx.closePath();
-  ctx.fill();
+    header nav a {
+      color: white;
+      margin-left: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
 
-  // Desenha os círculos da nuvem
-  ctx.beginPath();
-  ctx.arc(cloud.x, cloud.y, cloud.radius * 0.6, 0, Math.PI * 2);
-  ctx.arc(cloud.x + cloud.radius * 0.5, cloud.y + 10, cloud.radius * 0.7, 0, Math.PI * 2);
-  ctx.arc(cloud.x + cloud.radius, cloud.y, cloud.radius * 0.6, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.restore();
-}
+    header nav a:hover {
+      color: #B093EF;
+    }
 
 
-  // Animação noite (estrelas)
-  function animateNight() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "white";
-    stars.forEach(star => {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fill();
-      star.y += star.speed;
-      if (star.y > h) star.y = 0;
-    });
-  }
+    .hero {
+      padding: 100px 10%;
+      text-align: left;
+      max-width: 700px;
+    }
 
-  // Animação dia (nuvens)
-  function animateDay() {
-    ctx.clearRect(0, 0, w, h);
-    clouds.forEach(cloud => {
-      drawCloud(cloud);
-      cloud.x += cloud.speed;
-      if (cloud.x - cloud.radius > w) {
-        cloud.x = -cloud.radius * 2; // volta começando mais à esquerda, fora da tela
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .hero button {
+      background: #A374CD;
+      color: white;
+      font-weight: bold;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .hero button:hover {
+      background: #B093EF;
+    }
+
+    .features {
+      display: flex;
+      gap: 60px;
+      margin-top: 60px;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature i {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .feature p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .problema {
+      padding: 100px 10%;
+      text-align: center;
+      background: white;
+      color: #270F35;
+    }
+
+    .problema h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .card h3.valor {
+      color: #A374CD;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+
+    .problema p {
+      font-size: 18px;
+      color: #270F35;
+      margin-bottom: 50px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .problema-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      justify-content: center;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #f8fafc;
+      border-radius: 15px;
+      padding: 30px 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      width: 100%;
+      max-width: 260px;
+    }
+
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .card .icon {
+      background: linear-gradient(135deg, #A374CD, #B093EF);
+      color: white;
+      font-size: 28px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .card .valor {
+      color: #A374CD;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #162F72;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #270F35;
+    }
+
+    .problema-destaque {
+      grid-column: 1 / -1;
+      margin-top: 40px;
+      padding: 40px 30px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #010F43, #001961);
+      color: white;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.6;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s;
+    }
+
+    .problema-destaque p {
+      color: #fff;
+    }
+
+    .problema {
+      padding: 100px 10%;
+      text-align: center;
+      background: white;
+      color: #270F35;
+    }
+
+    .problema-destaque:hover {
+      transform: translateY(-5px);
+    }
+
+    .solucao {
+      background: #f8fafc;
+      padding: 80px 10%;
+      color: #270F35;
+    }
+
+    .solucao .content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .solucao h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .solucao .subtitle {
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto 50px;
+      text-align: center;
+      color: #270F35;
+    }
+
+    .solucao-body {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .solucao-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .solucao-text h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .solucao-text p {
+      line-height: 1.6;
+      color: #270F35;
+      margin-bottom: 30px;
+    }
+
+    .solucao-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .solucao-list li {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .icon-text {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .icon-text i {
+      font-size: 24px;
+      color: #162F72;
+    }
+
+    .icon-text h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .solucao-list li p {
+      font-size: 14px;
+      color: #270F35;
+      margin: 0;
+      padding-left: 39px;
+    }
+
+    .proposta-de-valor {
+      background: linear-gradient(135deg, #162F72, #1F4B90);
+      color: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .proposta-de-valor h4 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .proposta-de-valor blockquote {
+      font-size: 16px;
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .proposta-de-valor blockquote::before,
+    .proposta-de-valor blockquote::after {
+      content: '"';
+      font-size: 40px;
+      position: absolute;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .proposta-de-valor blockquote::before {
+      top: -10px;
+      left: -20px;
+    }
+
+    .proposta-de-valor blockquote::after {
+      bottom: -10px;
+      right: -20px;
+    }
+
+    .proposta-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .proposta-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .proposta-card h5 {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .proposta-card i {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .proposta-card p {
+      font-size: 12px;
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    /* Responsividade básica para telas menores */
+    @media (max-width: 768px) {
+      .solucao-body {
+        flex-direction: column;
       }
-    });
-  }
 
-  // Loop animação
-  function animate() {
-    if (isNight) {
-      animateNight();
-    } else {
-      animateDay();
+      .solucao-text,
+      .proposta-de-valor {
+        min-width: unset;
+        width: 100%;
+      }
+
+      .proposta-de-valor blockquote::before,
+      .proposta-de-valor blockquote::after {
+        display: none;
+      }
     }
-    requestAnimationFrame(animate);
-  }
 
-  // Alternar tema dia/noite e trocar logo
-  const logo = document.getElementById('logo');
-  logo.addEventListener('click', () => {
-    isNight = !isNight;
-    if (isNight) {
-      document.body.classList.remove('dia');
-      document.body.classList.add('noite');
-      logo.src = 'Logo_Lua.png';
-      logo.title = 'Clique para mudar para o dia';
-    } else {
-      document.body.classList.remove('noite');
-      document.body.classList.add('dia');
-      logo.src = 'Logo_Sol.png';
-      logo.title = 'Clique para mudar para a noite';
+    /* --- Funcionalidades Section --- */
+
+    .funcionalidades {
+      background: white;
+      padding: 80px 10%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-  });
 
-  // Inicialização
-  function init() {
-    resize();
-    createStars();
-    createClouds();
-    animate();
-  }
+    .funcionalidades::before,
+    .funcionalidades::after {
+      content: '';
+      position: absolute;
+      background: rgba(163, 116, 205, 0.2);
+      border-radius: 50%;
+      z-index: 0;
+    }
 
-  window.addEventListener('resize', () => {
-    resize();
-    if (isNight) createStars();
-    else createClouds();
-  });
+    .funcionalidades::before {
+      width: 100px;
+      height: 100px;
+      top: 10%;
+      left: 5%;
+    }
 
-  init();
-</script>
+    .funcionalidades::after {
+      width: 150px;
+      height: 150px;
+      bottom: 25%;
+      right: 5%;
+    }
+
+    .funcionalidades h2 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #162F72;
+      margin-bottom: 10px;
+    }
+
+    .funcionalidades .subtitle {
+      font-size: 18px;
+      color: #270F35;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .funcionalidade-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 80px;
+      margin-bottom: 80px;
+      text-align: left;
+    }
+
+    .funcionalidade-item.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .funcionalidade-text {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .funcionalidade-image {
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .funcionalidade-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .funcionalidade-text .icon-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .funcionalidade-text .icon-title i {
+      font-size: 30px;
+      color: #A374CD;
+    }
+
+    .funcionalidade-text .icon-title h3 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #162F72;
+      margin: 0;
+    }
+
+    .funcionalidade-text p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #270F35;
+      margin-bottom: 20px;
+    }
+
+    .funcionalidade-text ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .funcionalidade-text ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #270F35;
+    }
+
+    .funcionalidade-text ul li::before {
+      content: '•';
+      color: #A374CD;
+      font-size: 16px;
+      position: absolute;
+      left: 0;
+    }
+
+    @media (max-width: 900px) {
+
+      .funcionalidade-item,
+      .funcionalidade-item.reverse {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+
+      .funcionalidade-text {
+        max-width: 100%;
+      }
+
+      .funcionalidade-text .icon-title {
+        justify-content: center;
+      }
+
+      .funcionalidade-text ul {
+        text-align: left;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .funcionalidades::before,
+      .funcionalidades::after {
+        display: none;
+      }
+    }
+
+    /* --- Equipe e Valores Section --- */
+
+    .equipe-valores {
+      background: white;
+    }
+
+    .equipe {
+      padding: 80px 10%;
+      text-align: center;
+    }
+
+    .equipe h2 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #162F72;
+      margin-bottom: 10px;
+    }
+
+    .equipe p {
+      font-size: 18px;
+      color: #270F35;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .equipe-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .membro {
+      background: #f8fafc;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .membro:hover {
+      transform: translateY(-8px);
+    }
+
+    .membro img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .membro h4 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #162F72;
+      margin: 0;
+    }
+
+    .membro h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1F4B90;
+      margin: 5px 0 10px;
+    }
+
+    .membro p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #270F35;
+      margin: 0 0 20px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-links a {
+      color: #270F35;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: #162F72;
+    }
+
+    .valores-nova {
+      padding: 80px 10%;
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .valores-container-nova {
+      background: linear-gradient(135deg, #162F72, #1F4B90);
+      color: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .valores-container-nova h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    .valores-cards {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .valor-item {
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .valor-item h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .valor-item p {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .valores-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+    }
+
+    .valores-container-nova {
+      background: linear-gradient(135deg, #162F72, #1F4B90);
+      color: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      max-width: 1200px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .valores-container-nova h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    .valores {
+      background: #f8fafc;
+      padding: 0 10% 80px;
+      color: #270F35;
+      margin-top: -40px;
+    }
+
+    .contato {
+      padding: 80px 10%;
+      background: #E8BFFF;
+      text-align: center;
+      color: #010F43;
+    }
+
+    .contato h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .contato p {
+      font-size: 18px;
+      color: #162F72;
+      max-width: 700px;
+      margin: 0 auto 50px;
+      line-height: 1.6;
+    }
+
+    .contato-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .card-contato {
+      background: white;
+      border-radius: 15px;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+      flex: 1;
+      max-width: 350px;
+      min-width: 250px;
+    }
+
+    .card-contato:hover {
+      transform: translateY(-8px);
+    }
+
+    .card-contato i {
+      font-size: 40px;
+      color: #000152;
+      margin-bottom: 15px;
+    }
+
+    .card-contato h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .card-contato p,
+    .card-contato a {
+      font-size: 14px;
+      color: #162F72;
+      text-decoration: none;
+    }
+
+    .card-contato a:hover {
+      text-decoration: underline;
+    }
+
+    .futuro {
+      padding: 80px 10%;
+      background: #f8fafc;
+      text-align: center;
+      color: #162F72;
+    }
+
+    .futuro h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .futuro p {
+      font-size: 18px;
+      color: #270F35;
+      max-width: 800px;
+      margin: 0 auto 50px;
+      line-height: 1.6;
+    }
+
+    .futuro-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .futuro-card {
+      background: white;
+      border-radius: 15px;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+      flex: 1;
+      max-width: 300px;
+      min-width: 200px;
+    }
+
+    .futuro-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .futuro-card i {
+      font-size: 40px;
+      color: #1F4B90;
+      margin-bottom: 15px;
+    }
+
+    .futuro-card h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .futuro-card p {
+      font-size: 14px;
+      color: #270F35;
+      line-height: 1.5;
+    }
+
+    /* Estilo para o bloco "Nossa Missão" */
+    .missao-container-nova {
+      background: linear-gradient(135deg, #162F72, #1F4B90);
+      color: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .missao-container-nova h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .missao-container-nova blockquote {
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 0;
+      border: none;
+      padding: 0;
+      quotes: none;
+    }
+
+    .importancia-projeto {
+      padding: 80px 10%;
+      background: #f8fafc;
+      text-align: center;
+      color: #162F72;
+    }
+
+    .importancia-projeto h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .importancia-projeto p {
+      font-size: 18px;
+      color: #270F35;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .citacao-destaque {
+      background: #E8BFFF;
+      color: #000152;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .citacao-destaque p {
+      font-size: 18px;
+      font-style: italic;
+      margin: 0;
+    }
+
+    footer {
+      background: #000152;
+      color: white;
+      padding: 60px 10%;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col-1 {
+      max-width: 400px;
+    }
+
+    .logo-footer {
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .footer-col-1 p {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .footer-col-1 .description {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .footer-col-2,
+    .footer-col-3 {
+      min-width: 150px;
+    }
+
+    .footer-col-2 h4,
+    .footer-col-3 h4 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .footer-col-2 ul,
+    .footer-col-3 ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-col-2 ul li,
+    .footer-col-3 ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col-2 ul li a,
+    .footer-col-3 ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .footer-col-2 ul li a:hover,
+    .footer-col-3 ul li a:hover {
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      margin-top: 50px;
+    }
+
+    .linha {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .footer-info {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+
+      .footer-col-1,
+      .footer-col-2,
+      .footer-col-3 {
+        max-width: unset;
+        min-width: unset;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <header>
+    <h2>Selune</h2>
+    <nav>
+      <a href="#">Início</a>
+      <a href="#">Problema</a>
+      <a href="#">Solução</a>
+      <a href="#">Funcionalidades</a>
+      <a href="#">Equipe</a>
+      <a href="#">Contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Selune</h1>
+    <h2>A Revolução no Autocuidado da Pele</h2>
+    <p>
+      O seu guia diário e personalizado para uma pele saudável,<br>
+      com a credibilidade de especialistas.
+    </p>
+    <button>Descubra o Futuro do Autocuidado</button>
+
+    <div class="features">
+      <div class="feature">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <h3>100%</h3>
+        <p>Digital</p>
+      </div>
+      <div class="feature">
+        <i class="fa-solid fa-heart"></i>
+        <h3>24/7</h3>
+        <p>Cuidado</p>
+      </div>
+      <div class="feature">
+        <i class="fa-solid fa-shield-halved"></i>
+        <h3>100%</h3>
+        <p>Confiável</p>
+      </div>
+    </div>
+  </section>
+  <section class="problema">
+    <h2>O Problema que Enfrentamos</h2>
+    <p>
+      No Brasil, milhões de pessoas enfrentam barreiras significativas para acessar
+      cuidados dermatológicos adequados, resultando em problemas de saúde física e
+      emocional.
+    </p>
+
+    <div class="problema-cards">
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-user-group"></i></div>
+        <h3 class="valor">1:30.000</h3>
+        <h4>Falta de Especialistas</h4>
+        <p>Apenas 1 dermatologista para cada 30.000 habitantes no Brasil</p>
+      </div>
+
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+        <h3 class="valor">80%</h3>
+        <h4>Distribuição Desigual</h4>
+        <p>Concentração de profissionais nas capitais, deixando interior descoberto</p>
+      </div>
+
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3 class="valor">65%</h3>
+        <h4>Desinformação</h4>
+        <p>Uso de produtos inadequados por falta de orientação profissional</p>
+      </div>
+
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-heart-crack"></i></div>
+        <h3 class="valor">78%</h3>
+        <h4>Impactos Emocionais</h4>
+        <p>Problemas de pele afetam autoestima e qualidade de vida</p>
+      </div>
+      <div class="problema-destaque">
+        <h3>Um Problema de Saúde Pública</h3>
+        <p>
+          A falta de acesso democratizado à dermatologia no Brasil gera um ciclo vicioso:
+          desinformação leva ao uso de produtos inadequados, que causam problemas de pele,
+          impactando a autoestima e qualidade de vida de milhões de brasileiros.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="solucao">
+    <div class="content-wrapper">
+      <h2>A Solução: Selune</h2>
+      <p class="subtitle">
+        Uma plataforma digital inovadora que democratiza o acesso ao cuidado
+        dermatológico, transformando o autocuidado em um hábito contínuo e
+        personalizado.
+      </p>
+
+      <div class="solucao-body">
+        <div class="solucao-text">
+          <h3>Transformando o Cuidado com a Pele</h3>
+          <p>
+            O Selune não é apenas um aplicativo, é uma revolução no autocuidado.
+            Combinamos tecnologia de ponta com conhecimento dermatológico para
+            oferecer uma experiência única e transformadora.
+          </p>
+
+          <ul class="solucao-list">
+            <li>
+              <div class="icon-text">
+                <i class="fa-solid fa-gear"></i>
+                <h4>Personalização Inteligente</h4>
+              </div>
+              <p>
+                Cada usuário recebe um plano único baseado em suas
+                necessidades específicas
+              </p>
+            </li>
+            <li>
+              <div class="icon-text">
+                <i class="fa-solid fa-circle-check"></i>
+                <h4>Conteúdo Validado</h4>
+              </div>
+              <p>
+                Todas as informações são criadas e validadas por dermatologistas
+                certificados
+              </p>
+            </li>
+            <li>
+              <div class="icon-text">
+                <i class="fa-solid fa-chart-line"></i>
+                <h4>Acompanhamento Contínuo</h4>
+              </div>
+              <p>
+                Monitoramento diário da evolução da pele com insights
+                personalizados
+              </p>
+            </li>
+            <li>
+              <div class="icon-text">
+                <i class="fa-solid fa-users"></i>
+                <h4>Acesso Democratizado</h4>
+              </div>
+              <p>
+                Cuidado dermatológico de qualidade acessível a todos, em
+                qualquer lugar
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="proposta-de-valor">
+          <h4>Proposta de Valor</h4>
+          <blockquote>
+            "Democratizar o acesso à saúde da pele através de uma experiência
+            personalizada e confiável, transformando o cuidado em um hábito
+            contínuo."
+          </blockquote>
+          <div class="proposta-cards">
+            <div class="proposta-card">
+              <h5>100%</h5>
+              <p>Personalizado</p>
+            </div>
+            <div class="proposta-card">
+              <h5>24/7</h5>
+              <p>Disponível</p>
+            </div>
+            <div class="proposta-card">
+              <i class="fa-solid fa-infinity"></i>
+              <p>Evolução</p>
+            </div>
+            <div class="proposta-card">
+              <i class="fa-solid fa-shield-halved"></i>
+              <p>Confiável</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="funcionalidades">
+    <h2>Principais Funcionalidades</h2>
+    <p class="subtitle">
+      Cada funcionalidade foi cuidadosamente desenvolvida para oferecer uma
+      experiência completa e personalizada no cuidado com a pele.
+    </p>
+
+    <div class="funcionalidade-item">
+      <div class="funcionalidade-text">
+        <div class="icon-title">
+          <i class="fa-solid fa-user-gear"></i>
+          <h3>Onboarding Personalizado</h3>
+        </div>
+        <p>
+          Questionário inicial que cria um perfil único baseado no tipo de pele,
+          histórico e objetivos do usuário.
+        </p>
+        <ul>
+          <li>Interface intuitiva e fácil de usar</li>
+          <li>Dados seguros e privacidade garantida</li>
+          <li>Resultados personalizados e eficazes</li>
+        </ul>
+      </div>
+      <div class="funcionalidade-image">
+        <img src="https://i.ibb.co/6803h0b/onboarding.png"
+          alt="Tela de Onboarding Personalizado do aplicativo Selune" />
+      </div>
+    </div>
+
+    <div class="funcionalidade-item reverse">
+      <div class="funcionalidade-text">
+        <div class="icon-title">
+          <i class="fa-solid fa-calendar-day"></i>
+          <h3>Diário de Pele</h3>
+        </div>
+        <p>
+          Registro diário das condições da pele com fotos, sintomas e
+          evolução do tratamento.
+        </p>
+        <ul>
+          <li>Interface intuitiva e fácil de usar</li>
+          <li>Dados seguros e privacidade garantida</li>
+          <li>Resultados personalizados e eficazes</li>
+        </ul>
+      </div>
+      <div class="funcionalidade-image">
+        <img src="https://i.ibb.co/F820n8Y/diario-de-pele.png" alt="Tela de Diário de Pele do aplicativo Selune" />
+      </div>
+    </div>
+    <div class="funcionalidade-item">
+      <div class="funcionalidade-text">
+        <div class="icon-title">
+          <i class="fa-solid fa-book-open"></i>
+          <h3>Conteúdo Confiável</h3>
+        </div>
+        <p>
+          Artigos, dicas e guias criados e validados por dermatologistas
+          certificados.
+        </p>
+        <ul>
+          <li>Interface intuitiva e fácil de usar</li>
+          <li>Dados seguros e privacidade garantida</li>
+          <li>Resultados personalizados e eficazes</li>
+        </ul>
+      </div>
+      <div class="funcionalidade-image">
+        <img src="https://i.ibb.co/3k5D77f/conteudo-confiavel.png"
+          alt="Tela de Conteúdo Confiável do aplicativo Selune" />
+      </div>
+    </div>
+
+    <div class="funcionalidade-item reverse">
+      <div class="funcionalidade-text">
+        <div class="icon-title">
+          <i class="fa-solid fa-box-open"></i>
+          <h3>Curadoria de Produtos</h3>
+        </div>
+        <p>
+          Recomendações inteligentes de produtos adequados ao perfil e
+          necessidades do usuário.
+        </p>
+        <ul>
+          <li>Interface intuitiva e fácil de usar</li>
+          <li>Dados seguros e privacidade garantida</li>
+          <li>Resultados personalizados e eficazes</li>
+        </ul>
+      </div>
+      <div class="funcionalidade-image">
+        <img src="https://i.ibb.co/jR0Hh17/curadoria.png" alt="Tela de Curadoria de Produtos do aplicativo Selune" />
+      </div>
+    </div>
+    <div class="funcionalidade-item">
+      <div class="funcionalidade-text">
+        <div class="icon-title">
+          <i class="fa-solid fa-users-viewfinder"></i>
+          <h3>Conexão com Profissionais</h3>
+        </div>
+        <p>
+          Facilita o contato e agendamento de consultas com dermatologistas
+          especializados.
+        </p>
+        <ul>
+          <li>Interface intuitiva e fácil de usar</li>
+          <li>Dados seguros e privacidade garantida</li>
+          <li>Resultados personalizados e eficazes</li>
+        </ul>
+      </div>
+      <div class="funcionalidade-image">
+        <img src="https://i.ibb.co/L5hY5Fk/conexao-profissionais.png"
+          alt="Tela de Conexão com Profissionais do aplicativo Selune" />
+      </div>
+    </div>
+  </section>
+  <section class="equipe-valores">
+    <div class="equipe">
+      <h2>Nossa Equipe</h2>
+      <p>
+        Profissionais apaixonados e especializados trabalhando juntos para
+        revolucionar o cuidado com a pele no Brasil.
+      </p>
+
+      <div class="equipe-cards">
+        <div class="membro">
+          <img src="https://i.ibb.co/b3wJ25v/membro-1.png" alt="Ana Silva" />
+          <h4>Ana Silva</h4>
+          <h5>Product Manager & UX Designer</h5>
+          <p>
+            Especialista em experiência do usuário e gestão de produtos
+            digitais
+          </p>
+          <div class="social-links">
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-solid fa-link"></i></a>
+            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="membro">
+          <img src="https://i.ibb.co/hZ27DkY/membro-2.png" alt="Carlos Santos" />
+          <h4>Carlos Santos</h4>
+          <h5>Desenvolvedor Full Stack</h5>
+          <p>
+            Especialista em React Native, Node.js e arquitetura de sistemas
+          </p>
+          <div class="social-links">
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-solid fa-link"></i></a>
+            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="membro">
+          <img src="https://i.ibb.co/F820n8Y/membro-3.png" alt="Marina Costa" />
+          <h4>Marina Costa</h4>
+          <h5>Desenvolvedora Frontend</h5>
+          <p>
+            Especialista em interfaces responsivas e acessibilidade
+          </p>
+          <div class="social-links">
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-solid fa-link"></i></a>
+            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="membro">
+          <img src="https://i.ibb.co/pZg350t/membro-4.png" alt="Dr. João Oliveira" />
+          <h4>Dr. João Oliveira</h4>
+          <h5>Consultor Dermatológico</h5>
+          <p>
+            Dermatologista com 15 anos de experiência, validador de conteúdo
+          </p>
+          <div class="social-links">
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-solid fa-link"></i></a>
+            <a href="#"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="valores-nova">
+    <div class="valores-container-nova">
+      <h3>Nossos Valores</h3>
+      <div class="valores-cards">
+        <div class="valor-item">
+          <h4>Inovação</h4>
+          <p>
+            Buscamos constantemente novas formas de melhorar o cuidado com a
+            pele
+          </p>
+        </div>
+        <div class="valor-item">
+          <h4>Confiabilidade</h4>
+          <p>
+            Todas as informações são validadas por especialistas
+            certificados
+          </p>
+        </div>
+        <div class="valor-item">
+          <h4>Acessibilidade</h4>
+          <p>
+            Democratizamos o acesso ao conhecimento dermatológico de
+            qualidade
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="futuro">
+    <h2>Transformando o Futuro da Dermatologia</h2>
+    <p>
+      O Selune representa mais que um aplicativo: é uma ponte entre a tecnologia e o cuidado
+      humano, democratizando o acesso à saúde da pele no Brasil.
+    </p>
+
+    <div class="futuro-cards">
+      <div class="futuro-card">
+        <i class="fa-solid fa-heart"></i>
+        <h4>Impacto Social</h4>
+        <p>Democratização do acesso à saúde da pele</p>
+      </div>
+      <div class="futuro-card">
+        <i class="fa-solid fa-desktop"></i>
+        <h4>Inovação Tecnológica</h4>
+        <p>Solução digital pioneira no Brasil</p>
+      </div>
+      <div class="futuro-card">
+        <i class="fa-solid fa-check-circle"></i>
+        <h4>Validação Científica</h4>
+        <p>Conteúdo validado por especialistas</p>
+      </div>
+    </div>
+
+    <div class="missao-container-nova">
+      <h3>Nossa Missão</h3>
+      <blockquote>
+        "Criar uma solução tecnológica que torne o cuidado dermatológico acessível, confiável e personalizado para todos
+        os brasileiros, contribuindo para uma sociedade mais saudável e com maior qualidade de vida."
+      </blockquote>
+    </div>
+  </section>
+  <section class="importancia-projeto">
+    <div class="container">
+      <h2>A Importância do Projeto</h2>
+      <p>
+        O Selune não é apenas um TCC, é uma proposta real de solução para um problema de saúde pública.
+        Com tecnologia de ponta, metodologia ágil e validação científica, o projeto tem potencial para impactar
+        positivamente a vida de milhões de brasileiros, democratizando o acesso ao cuidado dermatológico e
+        promovendo uma sociedade mais saudável e informada.
+      </p>
+      <div class="citacao-destaque">
+        <p>
+          "Transformando conhecimento em tecnologia, tecnologia em cuidado, e cuidado em bem-estar
+          para todos."
+        </p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col-1">
+        <div class="logo-footer">
+          <i class="fa-solid fa"></i>
+          <span>Selune</span>
+        </div>
+        <p>
+          Revolucionando o autocuidado da pele através da tecnologia, democratizando
+          o acesso à dermatologia no Brasil.
+        </p>
+        <p class="description">
+          Projeto de TCC desenvolvido com paixão e dedicação para impactar positivamente a
+          saúde e bem-estar dos brasileiros.
+        </p>
+      </div>
+
+      <div class="footer-col-2">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#">Início</a></li>
+          <li><a href="#">Problema</a></li>
+          <li><a href="#">Solução</a></li>
+          <li><a href="#">Funcionalidades</a></li>
+          <li><a href="#">Equipe</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-3">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="mailto:contato@selune.com.br">contato@selune.com.br</a></li>
+          <li><a href="mailto:demo@selune.com.br">demo@selune.com.br</a></li>
+          <li><a href="mailto:academico@selune.com.br">academico@selune.com.br</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="linha"></div>
+      <div class="footer-info">
+        <p>© 2023 Selune. Todos os direitos reservados.</p>
+        <p>Feito com ❤️ pela equipe Selune</p>
+      </div>
+    </div>
+  </footer>
 </body>
+
 </html>
