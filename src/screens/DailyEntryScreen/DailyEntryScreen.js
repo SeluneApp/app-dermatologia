@@ -31,7 +31,7 @@ const DailyEntryScreen = ({ navigation, route }) => {
 
     try {
       const response = await fetch(
-        `https://4e5f2081274a.ngrok-free.app/usuario/${idUsuario}/entradas?date=${currentDate.format("YYYY-MM-DD")}`
+        `https://3a6f5c41385e.ngrok-free.app/usuario/${idUsuario}/entradas?date=${currentDate.format("YYYY-MM-DD")}`
       );
       const data = await response.json();
 
@@ -93,7 +93,7 @@ const DailyEntryScreen = ({ navigation, route }) => {
     console.log(entrada)
 
     try {
-      const response = await fetch('https://4e5f2081274a.ngrok-free.app/entrada', {
+      const response = await fetch('https://3a6f5c41385e.ngrok-free.app/entrada', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entrada),

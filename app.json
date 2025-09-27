@@ -44,8 +44,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "19cd0320-d1f7-4b1c-9ecd-82f330efbd65"
+        "projectId": "584bc931-7f8d-4eb9-ab8a-2d8ef8086a36"
       }
-    }
+    },
+    "owner": "Selune"
   }
 }

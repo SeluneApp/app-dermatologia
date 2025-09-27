@@ -24,7 +24,7 @@ export default function ProdutoSalvo() {
       if (!idUsuario) return;
 
       try {
-        const response = await fetch(`https://4e5f2081274a.ngrok-free.app/produtos_salvos/${idUsuario}`);
+        const response = await fetch(`https://3a6f5c41385e.ngrok-free.app/produtos_salvos/${idUsuario}`);
         if (!response.ok) {
           Alert.alert('Erro', 'Não foi possível carregar os produtos salvos.');
           return;

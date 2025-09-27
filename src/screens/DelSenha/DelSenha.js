@@ -47,7 +47,7 @@ function AtualizarSenha({ navigation }) {
 
     try {
       // Confirma senha atual
-      const respostaUpdate = await fetch(`https://63c0b903e2e7.ngrok-free.app/usuarios/email`, {
+      const respostaUpdate = await fetch(`https://3a6f5c41385e.ngrok-free.app/usuarios/email`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

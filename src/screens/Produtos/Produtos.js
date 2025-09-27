@@ -21,7 +21,7 @@ export default function Produtos({ navigation }) {
   useEffect(() => {
     async function buscarProdutos() {
       try {
-        const res = await fetch('https://4e5f2081274a.ngrok-free.app/produtos');
+        const res = await fetch('https://3a6f5c41385e.ngrok-free.app/produtos');
         const data = await res.json();
 
         setProdutosIndicados(data.slice(0, 3));

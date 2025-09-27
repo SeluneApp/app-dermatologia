@@ -38,6 +38,11 @@ const images = {
   'Creme Facial Firmador Ácido Hialurônico Botik.png': require('../../../assets/images/Creme Facial Firmador Ácido Hialurônico Botik.png'), 
 };
 
+const productImageKeys = {
+  "Loção Hidratante Pele Seca": "CeraVe - Creme Hidratante.png",
+  "Nivea Milk Nutritivo": "Balm Redutor de Rugas para Olhos Chronos.png",
+  "Neutrogena Hydro Boost Water Gel": "Creme Facial Firmador Ácido Hialurônico Botik.png",
+};
 
 // componente de produto
 const ProductTip = ({ name, rating, image, onPress }) => (
@@ -96,7 +101,7 @@ const HomePageNoite = () => {
   useEffect(() => {
     async function buscarProdutos() {
       try {
-        const res = await fetch('https://63c0b903e2e7.ngrok-free.app/produtos');
+        const res = await fetch('https://3a6f5c41385e.ngrok-free.app/produtos');
         const data = await res.json();
         setProdutosIndicados(data.slice(0, 3));
       } catch (error) {
@@ -192,9 +197,9 @@ const HomePageNoite = () => {
           <TouchableOpacity
             style={styles.registerButton}
             onPress={handleRegisterPress}
-          ><View style={styles.registerTextContainer}> {/* NOVO CONTÊINER PARA OS TEXTOS */}
-            <Text style={styles.registerTitle}>Registre sua pele:</Text> {/* NOVO ESTILO */}
-            <Text style={styles.registerSubtitle}>Sintomas e aparência</Text> {/* NOVO ESTILO */}
+          ><View style={styles.registerTextContainer}>
+            <Text style={styles.registerTitle}>Registre sua pele:</Text>
+            <Text style={styles.registerSubtitle}>Sintomas e aparência</Text>
           </View>
             <View style={styles.registerInput}>
             </View>
@@ -207,7 +212,7 @@ const HomePageNoite = () => {
           <View style={styles.dailyTipsSection}>
             <View style={styles.dailyTipsHeader}>
               <Text style={styles.sectionTitle}>Dicas Diárias</Text>
-              <Text style={styles.todayText}>·Hoje</Text>
+              <Text style={styles.todayText}>Hoje</Text>
               <TouchableOpacity
                 onPress={handleDailyTipsPress}
                 style={styles.arrowIconContainer}
@@ -258,11 +263,11 @@ const HomePageNoite = () => {
             <FlatList
               data={produtosIndicados}
               keyExtractor={(item) => String(item.id)}
-              renderItem={({ item, index }) => (
+              renderItem={({ item }) => (
                 <ProductTip
                   name={item.nome}
                   rating={item.media_avaliacao}
-                  image={images[productImageKeys[index]]}
+                  image={images[productImageKeys[item.nome]]}
                   onPress={() => navigation.navigate('Produto', { produto: item })}
                 />
               )}
@@ -345,7 +350,7 @@ const styles = StyleSheet.create({
   },
   registerSubtitle:{
    color:"#fff",
-    fontWeight:'light',
+    fontWeight:'300',
     fontSize:12,
   },
   plusButton: { backgroundColor: '#24e7f1ff', borderRadius: 16,paddingHorizontal:14, paddingVertical:5, justifyContent: 'center', alignItems: 'center', marginLeft: 10 },

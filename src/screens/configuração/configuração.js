@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity,Linking, ScrollView, SafeAreaView, Dimensions, Image, Alert, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Linking, ScrollView, SafeAreaView, Dimensions, Image, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,18 +8,18 @@ const { width } = Dimensions.get('window');
 
 const ConfiguracoesScreen = ({ navigation }) => {
   const [emailUsuario, setEmailUsuario] = useState("Carregando...");
- 
+
   useEffect(() => {
     async function carregarUsuario() {
       try {
         const id = await AsyncStorage.getItem("id_usuario");
         if (id) {
-          const response = await fetch(`https://4e5f2081274a.ngrok-free.app/usuario/${id}`);
+          const response = await fetch(`https://3a6f5c41385e.ngrok-free.app/usuario/${id}`);
           if (!response.ok) {
             throw new Error("Erro ao buscar usuário");
           }
           const data = await response.json();
-          setEmailUsuario(data.email_usuario); 
+          setEmailUsuario(data.email_usuario);
         }
       } catch (error) {
         console.error(error);
@@ -52,62 +52,62 @@ const ConfiguracoesScreen = ({ navigation }) => {
           contentContainerStyle={styles.contentContainer}
           showsVerticalScrollIndicator={false}
         >
-            {/* Header com botão de voltar */}
-            <View style={styles.header}>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                <Text style={styles.backIcon}>{'<'}</Text>
-              </TouchableOpacity>
-            </View>
+          {/* Header com botão de voltar */}
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+              <Text style={[styles.backIcon]}>{'<'}</Text>
+            </TouchableOpacity>
+          </View>
 
-            {/* Card de Perfil */}
-            <View style={styles.profileCard}>
-              <View style={styles.profileInfo}>
-                <Image
-                  source={require('../../../assets/images/Selune-Lune.png')}
-                  style={styles.profileImage}
-                />
-                <View style={styles.profileText}>
-                  <Text style={styles.profileEmail}>{emailUsuario}</Text>
-                  <Text style={styles.editInfo}>Editar Informações</Text>
-                </View>
+          {/* Card de Perfil */}
+          <View style={styles.profileCard}>
+            <View style={styles.profileInfo}>
+              <Image
+                source={require('../../../assets/images/Selune-Lune.png')}
+                style={styles.profileImage}
+              />
+              <View style={styles.profileText}>
+                <Text style={styles.profileEmail}>{emailUsuario}</Text>
+                <Text style={styles.editInfo}>Editar Informações</Text>
               </View>
-              <TouchableOpacity style={styles.premiumButton}>
-                <Text style={styles.premiumButtonText}>Seja Premium</Text>
-              </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.premiumButton}>
+              <Text style={styles.premiumButtonText}>Seja Premium</Text>
+            </TouchableOpacity>
+          </View>
 
-            {/* Seção de Opções */}
-            <View style={styles.sectionCard}>
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Temas')}>
-                <MaterialCommunityIcons name="moon-waxing-crescent" size={24} color="#fff" style={styles.optionIcon} />
-                <Text style={styles.optionText}>Temas</Text>
-              </TouchableOpacity>
-              <View style={styles.separator} />
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Contato')}>
-                <MaterialCommunityIcons name="email-outline" size={24} color="#fff" style={styles.optionIcon} />
-                <Text style={styles.optionText}>Contato</Text>
-              </TouchableOpacity>
-              <View style={styles.separator} />
-              <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('ConfiguracaoNoite')}>
-                <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" style={styles.optionIcon} />
-                <Text style={styles.optionText}>Configurações</Text>
-              </TouchableOpacity>
-            </View>
+          {/* Seção de Opções */}
+          <View style={styles.sectionCard}>
+            <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Temas')}>
+              <MaterialCommunityIcons name="moon-waxing-crescent" size={24} color="#fff" style={styles.optionIcon} />
+              <Text style={styles.optionText}>Temas</Text>
+            </TouchableOpacity>
+            <View style={styles.separator} />
+            <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Contato')}>
+              <MaterialCommunityIcons name="email-outline" size={24} color="#fff" style={styles.optionIcon} />
+              <Text style={styles.optionText}>Contato</Text>
+            </TouchableOpacity>
+            <View style={styles.separator} />
+            <TouchableOpacity style={styles.optionItem} onPress={() => navigation.navigate('ConfiguracaoNoite')}>
+              <MaterialCommunityIcons name="cog-outline" size={24} color="#fff" style={styles.optionIcon} />
+              <Text style={styles.optionText}>Configurações</Text>
+            </TouchableOpacity>
+          </View>
 
-            {/* Seção de Redes Sociais */}
-            <View style={styles.sectionCard}>
-              <TouchableOpacity style={styles.optionItem}  onPress={() => Linking.openURL('https://www.instagram.com/seluneapp?igsh=MWxjdmZ4a3FtbXYxeg==')}>
-                <MaterialCommunityIcons name="instagram" size={24} color="#fff" style={styles.optionIcon} />
-                <Text style={styles.optionText}>Instagram</Text>
-              </TouchableOpacity>
-              <View style={styles.separator} />
-              <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Comentario')}>
-                <MaterialCommunityIcons name="send" size={24} color="#fff" style={styles.optionIcon} />
-                <Text style={styles.optionText}>Compartilhe seu comentário</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+          {/* Seção de Redes Sociais */}
+          <View style={styles.sectionCard}>
+            <TouchableOpacity style={styles.optionItem} onPress={() => Linking.openURL('https://www.instagram.com/seluneapp?igsh=MWxjdmZ4a3FtbXYxeg==')}>
+              <MaterialCommunityIcons name="instagram" size={24} color="#fff" style={styles.optionIcon} />
+              <Text style={styles.optionText}>Instagram</Text>
+            </TouchableOpacity>
+            <View style={styles.separator} />
+            <TouchableOpacity style={styles.optionItem} onPress={() => handleNavigationPress('Comentario')}>
+              <MaterialCommunityIcons name="send" size={24} color="#fff" style={styles.optionIcon} />
+              <Text style={styles.optionText}>Compartilhe seu comentário</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
 
       {/* Barra de navegação inferior */}
       <View style={styles.bottomNav}>
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderTopWidth: 1,
     backgroundColor: 'rgba(217, 217, 217, 0.1)',
-      borderRadius: 50,
+    borderRadius: 50,
     position: 'absolute',
     bottom: 0,
     left: 0,
