@@ -80,7 +80,10 @@ const ConteudoPage = ({ navigation }) => {
               color="#fff"
               style={styles.headerIconLightning}
             />
-            <Text style={styles.headerTitle}>Conteúdo</Text>
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <Text style={styles.headerTitle}>Conteúdo</Text>
+              <View style={styles.titleLine} />
+            </View>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <MaterialCommunityIcons name="chevron-down" size={24} color="#fff" />
             </TouchableOpacity>
@@ -151,17 +154,28 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    padding: 20,
+    paddingVertical: 10, 
+    marginBottom: 5, 
+    marginTop: 20, 
+    paddingHorizontal: 15, 
+    width: '100%',
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontSize: 22, 
+    color: '#fff', 
+    fontWeight: 'bold'
   },
+  titleLine: {
+     width: 60, 
+     height: 2, 
+     backgroundColor: '#fff', 
+     marginTop: 5 
+  },
+
   headerIconLightning: {
-    marginTop: 5,
+    marginTop: 2,
   },
   scrollContent: {
     padding: 20,

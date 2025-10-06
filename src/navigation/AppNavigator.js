@@ -21,6 +21,7 @@ import Form from "../screens/Form/Form.Noite.js";
 import CuidadosEspeciaisAlbinismoDetalhe from "../screens/CuidadosEspeciaisAlbinismoDetalhe/CuidadosEspeciaisAlbinismoDetalhe";
 import DermatiteMitosDetalhePage from "../screens/DermatiteMitosDetalhePage/DermatiteMitosDetalhePage";
 import CadastrarScreen from '../screens/cadastrar/CadastrarScreen';
+import WelcomeScreen from '../screens/Welcome/Welcome';
 const Stack = createStackNavigator();
 
 
@@ -29,9 +30,10 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="FormScreen"
+        initialRouteName="Welcome"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="FormScreen" component={Form} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Home" component={LoginScreen} />

@@ -1,53 +1,58 @@
 {
-    "expo": {
-        "name": "Selune",
-        "slug": "Selune",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/images/Logo_Lua.png",
-        "scheme": "selune",
-        "userInterfaceStyle": "automatic",
-        "updates": {
-            "fallbackToCacheTimeout": 0,
-            "enabled": false
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            },
-            "edgeToEdgeEnabled": true,
-            "package": "com.anonymous.Selune"
-        },
-        "web": {
-            "bundler": "metro",
-            "favicon": "./assets/images/favicon.png"
-        },
-        "plugins": [
-            [
-                "expo-splash-screen",
-                {
-                    "image": "./assets/images/Logo_Lua.png",
-                    "resizeMode": "contain",
-                    "backgroundColor": "#191970"
-                }
-            ],
-            "expo-font"
-        ],
-        "experiments": {
-            "typedRoutes": true
-        },
-        "extra": {
-            "eas": {
-                "projectId": "584bc931-7f8d-4eb9-ab8a-2d8ef8086a36"
-            }
-        },
-        "owner": "Selune"
-    }
+  "expo": {
+    "name": "Selune",
+    "slug": "Selune",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/Logo_Lua.png",
+    "scheme": "selune",
+    "userInterfaceStyle": "automatic",
+    "updates": {
+      "enabled": false
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.Selune"
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/Logo_Lua.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#191970"
+        }
+      ],
+      "expo-font",
+      "expo-router"
+    ],
+    "splash": {
+      "image": "./assets/images/Logo_Lua.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#191970"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "584bc931-7f8d-4eb9-ab8a-2d8ef8086a36"
+      }
+    },
+    "owner": "Selune"
+  }
 }

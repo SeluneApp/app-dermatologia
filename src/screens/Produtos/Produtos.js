@@ -7,6 +7,7 @@ export default function Produtos({ navigation }) {
   const [usuarioLogado, setUsuarioLogado] = useState(null);
   const [produtosIndicados, setProdutosIndicados] = useState([]);
   const [maisProdutos, setMaisProdutos] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const starOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -32,6 +33,14 @@ export default function Produtos({ navigation }) {
     }
     buscarProdutos();
   }, []);
+
+  //pesquisa
+  const produtosIndicadosFiltrados = produtosIndicados.filter((item) =>
+    item.nome.toLowerCase().includes(searchText.toLowerCase())
+  );
+  const maisProdutosFiltrados = maisProdutos.filter((item) =>
+    item.nome.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   // Animação das estrelas
   useEffect(() => {
@@ -87,14 +96,20 @@ export default function Produtos({ navigation }) {
           {/* Barra de Pesquisa */}
           <View style={styles.searchBar}>
             <MaterialCommunityIcons name="magnify" size={20} color="#fff" style={styles.searchIcon} />
-            <TextInput placeholder="Pesquisar..." placeholderTextColor="#ccc" style={styles.searchInput} />
+            <TextInput
+              placeholder="Pesquisar..."
+              placeholderTextColor="#ccc"
+              style={styles.searchInput}
+              value={searchText}
+              onChangeText={setSearchText}
+            />
             <MaterialCommunityIcons name="feather" size={16} color="#fff" style={styles.searchIconRight} />
           </View>
 
           {/* Produtos indicados */}
           <Text style={styles.sectionTitle}>Produtos indicados para sua pele</Text>
           <FlatList
-            data={produtosIndicados}
+            data={produtosIndicadosFiltrados}
             keyExtractor={(item) => String(item.id)}
             renderItem={(props) => renderItem(props, false)}
             contentContainerStyle={styles.list}
@@ -108,7 +123,7 @@ export default function Produtos({ navigation }) {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={maisProdutos}
+            data={maisProdutosFiltrados}
             keyExtractor={(item) => String(item.id)}
             renderItem={(props) => renderItem(props, true)}
             horizontal

@@ -5,8 +5,10 @@ import {
   View, 
   SafeAreaView, 
   TouchableOpacity, 
-  ImageBackground 
+  ImageBackground,
+  Image,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Dados do questionário
@@ -105,7 +107,8 @@ const skinQuestions = [
 
 const SkinQuizPage = ({ navigation }) => {
   const [answers, setAnswers] = useState({});
-  const [result, setResult] = useState(null);
+  const [resultDone, setResultDone] = useState(false);
+  const [profileResult, setProfileResult] = useState(null);
   const [step, setStep] = useState(0);
   const [error, setError] = useState(false); // controla se mensagem de erro deve aparecer
 
@@ -138,7 +141,13 @@ const SkinQuizPage = ({ navigation }) => {
       default: skinType = 'Tipo de Pele Indefinido';
     }
 
-    setResult(skinType);
+    setProfileResult(skinType);
+    setResultDone(true);
+    try {
+      AsyncStorage.setItem('skinProfile', skinType);
+    } catch (e) {
+      console.warn('Não foi possível salvar o perfil:', e);
+    }
   };
 
   const handleNext = () => {
@@ -162,27 +171,23 @@ const SkinQuizPage = ({ navigation }) => {
         style={styles.backgroundImage}
         resizeMode="cover"
       >
-        <SafeAreaView style={styles.safeArea}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <MaterialCommunityIcons name="chevron-left" size={28} color="#fff" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Avaliação da Pele</Text>
-            <View style={{ width: 28 }} />
-          </View>
 
-          {result ? (
-            <View style={styles.resultContainer}>
-              <Text style={styles.resultTitle}>Resultado</Text>
-              <Text style={styles.resultText}>Seu tipo de pele provável é:</Text>
-              <Text style={styles.resultHighlight}>{result}</Text>
+          {resultDone ? (
+            <View style={styles.resultWrapper}>
+              <Image
+                source={require('../../../assets/images/Logo_Lua.png')}
+                style={styles.mainIcon}
+              />
+              <View style={styles.resultContainer}>
+                <Text style={styles.resultTitle}>Seu perfil foi realizado!</Text>
 
-              <TouchableOpacity 
-                style={styles.finishButton}
-                onPress={() => navigation.navigate('LoginScreen')}
-              >
-                <Text style={styles.finishButtonText}>Continuar</Text>
-              </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.finishButton}
+                  onPress={() => navigation.navigate('LoginScreen')}
+                >
+                  <Text style={styles.finishButtonText}>Continuar</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : (
             <View style={styles.quizContainer}>
@@ -229,7 +234,7 @@ const SkinQuizPage = ({ navigation }) => {
               </Text>
             </View>
           )}
-        </SafeAreaView>
+
       </ImageBackground>
     </View>
   );
@@ -259,6 +264,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'transparent',
   },
+  resultTitle: { 
+  fontSize: 26, // Um pouco maior
+  fontWeight: 'bold', 
+  color: 'white', // Cor branca para o título (igual à tela anterior)
+  marginBottom: 40, // Espaçamento maior antes do botão
+  textAlign: 'center' 
+},
+
+finishButton: {
+  backgroundColor: '#00FFFF', 
+  width: '80%', 
+  paddingVertical: 15, 
+  borderRadius: 30, 
+  alignItems: 'center',
+  marginTop: 20, 
+  
+  shadowColor: '#00FFFF',
+  shadowOpacity: 0.5,
+  shadowRadius: 10,
+  elevation: 5,
+},
+
+finishButtonText: { 
+  fontSize: 18, 
+  fontWeight: 'bold', 
+  color: '#00001A', 
+},
   optionButtonSelected: {
     borderColor: '#8A2BE2', 
     backgroundColor: 'rgba(138, 43, 226, 0.3)',
@@ -296,6 +328,8 @@ const styles = StyleSheet.create({
     margin: 20,
     borderRadius: 15,
   },
+  resultWrapper: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  mainIcon: { width: 120, height: 120, marginBottom: 20, resizeMode: 'contain' },
   resultTitle: { fontSize: 20, fontWeight: 'bold', color: '#fff', marginBottom: 10, textAlign: 'center' },
   resultText: { fontSize: 16, color: '#E0E0E0', textAlign: 'center' },
   resultHighlight: { fontSize: 22, fontWeight: 'bold', color: '#8A2BE2', marginTop: 10, textAlign: 'center' },

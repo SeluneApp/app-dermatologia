@@ -1,1 +1,0 @@
-export { SymptomsSection } from "./SymptomsSection";
