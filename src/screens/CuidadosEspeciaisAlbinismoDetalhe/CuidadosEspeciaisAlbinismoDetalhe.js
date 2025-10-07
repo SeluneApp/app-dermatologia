@@ -1,14 +1,26 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
   SafeAreaView,
   ScrollView,
-  ImageBackground,
-  TouchableOpacity,
   Image,
+  StyleSheet,
 } from 'react-native';
+
+const DermatologistWarning = () => (
+  <View style={styles.warningContainer}>
+    <View style={styles.warningBox}>
+      <Text style={styles.warningText}>Se apresentar qualquer sinal de enfermidade em sua pele.</Text>
+      <TouchableOpacity style={styles.contactButton} onPress={() => console.log('Botão Contato Dermatologista Pressionado')}>
+        <Text style={styles.contactButtonText}>Contate um dermatologista</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+);
+
 
 const CuidadosEspeciaisAlbiismoDetalhe = ({ navigation }) => {
   return (
@@ -27,6 +39,7 @@ const CuidadosEspeciaisAlbiismoDetalhe = ({ navigation }) => {
               <Text style={styles.headerIcon}>↓</Text>
             </TouchableOpacity>
           </View>
+          
           <ScrollView contentContainerStyle={styles.scrollContent}>
             <Image
               source={require('../../../assets/images/criança-albina.jpeg')}
@@ -65,6 +78,9 @@ const CuidadosEspeciaisAlbiismoDetalhe = ({ navigation }) => {
               </Text>
             </View>
           </ScrollView>
+          
+          <DermatologistWarning />
+          
         </SafeAreaView>
       </ImageBackground>
     </View>
@@ -107,7 +123,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: 150, // Aumentado para o conteúdo não ficar atrás do aviso fixo
   },
   mainImage: {
     width: '100%',
@@ -120,7 +136,6 @@ const styles = StyleSheet.create({
     marginTop: -80,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingBottom: 100,
   },
   contentTitle: {
     fontSize: 28,
@@ -170,6 +185,50 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: 10,
     marginBottom: 10,
+  },
+
+  
+  warningContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 15,
+    paddingTop: 15,
+    paddingBottom: 30, 
+    backgroundColor: '#191970', 
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    elevation: 20, 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+  },
+  warningBox: {
+    backgroundColor: '#1c2e4f', 
+    borderRadius: 15,
+    padding: 10,
+    alignItems: 'center',
+  },
+  warningText: {
+    color: '#fff',
+    fontSize: 14,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  contactButton: {
+    backgroundColor: '#303f9f', // Azul escuro do botão
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 8,
+    width: '90%',
+    alignItems: 'center',
+  },
+  contactButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

@@ -1,20 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing, Image } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function WelcomeScreen({ navigation }) {
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const startSequence = async () => {
-      const hasLaunched = await AsyncStorage.getItem('hasLaunched');
-      if (hasLaunched) {
-        router.replace('/'); 
-        return;
-      }
-      
-      await AsyncStorage.setItem('hasLaunched', 'true');
-
+    const startSequence = () => {
       Animated.timing(opacity, {
         toValue: 1,
         duration: 2000,
@@ -26,14 +18,11 @@ export default function WelcomeScreen({ navigation }) {
       setTimeout(() => {
         if (navigation && typeof navigation.replace === 'function') {
           navigation.replace('FormScreen');
-        } else {
-          router.replace('/');
         }
       }, 5000);
     };
-
     startSequence();
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.wrapper}>

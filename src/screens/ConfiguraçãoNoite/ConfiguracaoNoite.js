@@ -15,7 +15,6 @@ const ConfiguracaoPage = ({ navigation }) => {
   const menuItems = [
     { title: 'Configurações de notificações', icon: 'bell-outline' },
     { title: 'Idioma', icon: 'web' },
-    { title: 'Privacidade', icon: 'shield-outline' },
     { title: 'Sobre', icon: 'help-circle-outline' },
     { title: 'Sair', icon: 'power' },
   ];
@@ -33,7 +32,7 @@ const ConfiguracaoPage = ({ navigation }) => {
               <MaterialCommunityIcons name="chevron-left" size={28} color="#fff" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Configurações</Text>
-            <View style={{ width: 28 }} /> {/* Espaço para manter alinhamento */}
+            <View style={{ width: 28 }} /> 
           </View>
 
           <ScrollView contentContainerStyle={styles.menuList}>

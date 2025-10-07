@@ -40,7 +40,6 @@ const ConfiguracoesScreen = ({ navigation }) => {
 
   return (
     <View style={styles.mainWrapper}>
-      {/* Imagem de fundo que ocupa a tela inteira */}
       <Image
         source={require('../../../assets/images/StarryBackground.png')}
         style={styles.backgroundImage}
@@ -68,7 +67,6 @@ const ConfiguracoesScreen = ({ navigation }) => {
               />
               <View style={styles.profileText}>
                 <Text style={styles.profileEmail}>{emailUsuario}</Text>
-                <Text style={styles.editInfo}>Editar Informações</Text>
               </View>
             </View>
             <TouchableOpacity style={styles.premiumButton}>
@@ -163,13 +161,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // --- Estilos Corrigidos para o Card de Perfil ---
   profileCard: {
-    backgroundColor: '#a983bfc0', // Cor roxa escura sólida do card
-    borderRadius: 20, // Cantos mais arredondados
+    backgroundColor: '#a983bfc0',
+    borderRadius: 20, 
     padding: 20,
     marginBottom: 20,
-    // Removidas as bordas
+    
   },
   profileInfo: {
     flexDirection: 'row',
@@ -181,7 +178,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginRight: 15,
-    backgroundColor: 'transparent', // Fundo transparente
+    backgroundColor: 'transparent', 
   },
   profileText: {
     flex: 1,
@@ -196,12 +193,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   premiumButton: {
-    backgroundColor: '#00BFFF', // Cor azul vibrante
+    backgroundColor: '#00BFFF', 
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 15,
-    alignSelf: 'flex-end', // Alinha à direita
-    marginTop: -30, // Move o botão para cima, sobrepondo o card
+    alignSelf: 'flex-end', 
+    marginTop: -30, 
   },
   premiumButtonText: {
     color: '#fff',

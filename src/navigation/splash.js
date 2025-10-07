@@ -4,22 +4,31 @@ import LottieView from "lottie-react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useRouter } from "expo-router";
 
-SplashScreen.preventAutoHideAsync();
-await SplashScreen.hideAsync();
-
-
 export default function Splash() {
   const router = useRouter();
 
   useEffect(() => {
+    // Evita chamadas top-level que podem causar erros no carregamento do bundle
+    (async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+      } catch (e) {
+        // ignore if already prevented or not supported
+      }
+    })();
+
     // Esconde o splash depois de 3s (ou quando a animação termina)
     const timer = setTimeout(async () => {
-      await SplashScreen.hideAsync();
+      try {
+        await SplashScreen.hideAsync();
+      } catch (e) {
+        // ignore
+      }
       router.replace("/Produtos"); // troca pelo nome da sua tela inicial
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [router]);
 
   return (
     <View style={styles.container}>

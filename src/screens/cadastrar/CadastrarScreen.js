@@ -53,7 +53,6 @@ function CadastrarScreen({ navigation }) {
               resizeMode="contain"
             />
             <View style={globalStyles.content}>
-              <Text style={globalStyles.título}>Bem Vindo ao Selune</Text>
               <Text style={globalStyles.entrada}>Cadastre-se</Text>
             </View>
 
@@ -114,7 +113,7 @@ function CadastrarScreen({ navigation }) {
               <View style={globalStyles.registerPrompt}>
                 <Text style={globalStyles.label}>Já possui uma conta? </Text>
                 <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-                  <Text style={globalStyles.linkText}>Entrar</Text>
+                  <Text style={globalStyles.atualizar}>Entrar</Text>
                 </TouchableOpacity>
               </View>
             </View>
