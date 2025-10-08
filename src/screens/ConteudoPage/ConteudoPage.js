@@ -131,7 +131,7 @@ const ConteudoPage = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => navigation.navigate('configuração')}
+            onPress={() => navigation.navigate('configuracao')}
           >
             <MaterialCommunityIcons name="cog-outline" size={28} color="#fff" />
           </TouchableOpacity>

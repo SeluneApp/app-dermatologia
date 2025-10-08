@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // Telas
+import Splash from "./splash.js";
 import LoginScreen from "../screens/LoginScreen/LoginScreen";
 import HomePageNoite from "../screens/HomePageNoite/HomePageNoite";
 import CalendarioNoite from "../screens/CalendarioNoite/CalendarioNoite";
@@ -14,16 +15,18 @@ import ProdutosMais from "../screens/ProdutosMais/ProdutosMais";
 import DailyEntryScreen from "../screens/DailyEntryScreen/DailyEntryScreen";
 import ConteudoPage from "../screens/ConteudoPage/ConteudoPage";
 import DermatiteDetalhePage from "../screens/DermatiteDetalhePage/DermatiteDetalhePage";
-import Configuracao from "../screens/configuração/configuração"; 
+import Configuracao from "../screens/configuracao/configuracao"; 
 import DelSenha from "../screens/DelSenha/DelSenha";
-import ConfiguracaoNoite from "../screens/ConfiguraçãoNoite/ConfiguracaoNoite";
+import ConfiguracaoNoite from "../screens/ConfiguracaoNoite/ConfiguracaoNoite";
 import Form from "../screens/Form/Form.Noite.js";
 import CuidadosEspeciaisAlbinismoDetalhe from "../screens/CuidadosEspeciaisAlbinismoDetalhe/CuidadosEspeciaisAlbinismoDetalhe";
 import DermatiteMitosDetalhePage from "../screens/DermatiteMitosDetalhePage/DermatiteMitosDetalhePage";
 import CadastrarScreen from '../screens/cadastrar/CadastrarScreen';
 import WelcomeScreen from '../screens/Welcome/Welcome';
 const Stack = createStackNavigator();
-
+/* 
+<Stack.Screen name="Home" component={LoginScreen} />  -> Não entendi o pq disso, ele  
+*/
 
 
 export default function AppNavigator() {
@@ -33,10 +36,11 @@ export default function AppNavigator() {
         initialRouteName="Welcome"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="FormScreen" component={Form} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="Home" component={LoginScreen} />
+        <Stack.Screen name="Home" component={LoginScreen} /> 
         <Stack.Screen name="DailyEntryScreen" component={DailyEntryScreen} />
         <Stack.Screen name="HomePageNoite" component={HomePageNoite} />
         <Stack.Screen name="CalendarioNoite" component={CalendarioNoite} />
@@ -47,7 +51,7 @@ export default function AppNavigator() {
         <Stack.Screen name="ProdutosMais" component={ProdutosMais} />
         <Stack.Screen name="ConteudoPage" component={ConteudoPage} />
         <Stack.Screen name="DermatiteDetalhePage" component={DermatiteDetalhePage} />
-        <Stack.Screen name="configuração" component={Configuracao} />
+        <Stack.Screen name="configuracao" component={Configuracao} />
         <Stack.Screen name="DelSenha" component={DelSenha} />
         <Stack.Screen name="ConfiguracaoNoite" component={ConfiguracaoNoite} />
         <Stack.Screen name="CuidadosEspeciaisAlbinismoDetalhe" component={CuidadosEspeciaisAlbinismoDetalhe} />

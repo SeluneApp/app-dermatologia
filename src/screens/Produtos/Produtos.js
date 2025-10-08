@@ -144,7 +144,7 @@ export default function Produtos({ navigation }) {
         <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('Produtos')}>
           <MaterialCommunityIcons name="feather" size={28} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuração')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('configuracao')}>
           <MaterialCommunityIcons name="cog-outline" size={28} color="#fff" />
         </TouchableOpacity>
       </View>

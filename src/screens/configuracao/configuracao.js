@@ -14,7 +14,7 @@ const ConfiguracoesScreen = ({ navigation }) => {
       try {
         const id = await AsyncStorage.getItem("id_usuario");
         if (id) {
-          const response = await fetch(`https://3a6f5c41385e.ngrok-free.app/usuario/${id}`);
+          const response = await fetch(`https://30989c00a844.ngrok-free.app/usuario/${id}`);
           if (!response.ok) {
             throw new Error("Erro ao buscar usuário");
           }
@@ -118,7 +118,7 @@ const ConfiguracoesScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Produtos')}>
           <MaterialCommunityIcons name="feather" size={28} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('configuração')}>
+        <TouchableOpacity style={styles.navButtonActive} onPress={() => navigation.navigate('configuracao')}>
           <MaterialCommunityIcons name="cog-outline" size={28} color="#000" />
         </TouchableOpacity>
       </View>

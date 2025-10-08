@@ -2,33 +2,27 @@ import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { useRouter } from "expo-router";
+//import { useRouter } from "expo-router";
 
-export default function Splash() {
-  const router = useRouter();
-
+export default function Splash({navigation}) {
   useEffect(() => {
-    // Evita chamadas top-level que podem causar erros no carregamento do bundle
     (async () => {
       try {
         await SplashScreen.preventAutoHideAsync();
-      } catch (e) {
-        // ignore if already prevented or not supported
+      } catch {
       }
     })();
 
-    // Esconde o splash depois de 3s (ou quando a animação termina)
     const timer = setTimeout(async () => {
       try {
         await SplashScreen.hideAsync();
-      } catch (e) {
-        // ignore
+      } catch {
       }
-      router.replace("/Produtos"); // troca pelo nome da sua tela inicial
+      navigation.replace("Produtos"); 
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -38,7 +32,7 @@ export default function Splash() {
         loop={false}
         onAnimationFinish={async () => {
           await SplashScreen.hideAsync();
-          router.replace("/home");
+          navigation.replace("HomeScreen");
         }}
         style={{ width: 250, height: 250 }}
       />
@@ -51,6 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#191970", // fundo igual ao do app.json
+    backgroundColor: "#191970", 
   },
 });
